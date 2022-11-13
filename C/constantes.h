@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 /**/
 #define MAX_LONGITUD_COMANDO 20
@@ -10,11 +12,16 @@
 #define MAX_NOMBRE 30
 #define MAX_NOMBRE_ARCHIVO 40
 
+static const int EDAD_MAXIMA = 100;
+
 static const int MINIMO_ARGUMENTOS_LISTAR = 3;
 static const int MINIMO_ARGUMENTOS_CONTACTAR = 4;
 static const int MINIMO_ARGUEMENTOS_MODIFICAR = 6;
 static const int MINIMO_ARGUEMENTOS_AGREGAR = 7;
 static const int MINIMO_ARGUEMENTOS_AYUDA = 2;
+
+static const char ESTADO_VIVO= 'V';
+static const char ESTADO_MUERTO = 'M';
 
 /*Indice de los datos en la linea de comandos*/
 static const int POSICION_COMANDO = 1;

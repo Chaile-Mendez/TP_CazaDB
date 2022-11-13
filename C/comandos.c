@@ -1,6 +1,6 @@
 #include "constantes.h"
 #include "comandos.h"
-#include <stdio.h>
+#include "comprobaciones.h"
 
 /**/
 void log_c(char character)
@@ -16,8 +16,6 @@ void log_s(char string[])
     printf("%s\n", string);
 }
 /**/
-
-
 
 void listar_super()
 {
@@ -40,31 +38,6 @@ void mostrar_ayuda()
     printf("mostrar informacion del programa");
 }
 
-int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO])
-{
-
-    if ((strcmp(comando, COMANDO_LISTAR_SUPERS)) == 0)
-    {
-        return MINIMO_ARGUMENTOS_LISTAR;
-    }
-    else if (strcmp(comando, COMANDO_CONTACTAR_SUPER) == 0)
-    {
-        return MINIMO_ARGUMENTOS_CONTACTAR;
-    }
-    else if (!strcmp(comando, COMANDO_MODIFICAR_SUPER) == 0)
-    {
-        return MINIMO_ARGUEMENTOS_MODIFICAR;
-    }
-    else if (!strcmp(comando, COMANDO_AGREGAR_SUPER) == 0)
-    {
-        return MINIMO_ARGUEMENTOS_AGREGAR;
-    }
-    else
-    {
-        return 2;
-    }
-}
-
 void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argumentos[], int cantidad_argumentos)
 {
     strcpy(solicitud->comando, *(&argumentos[POSICION_COMANDO]));
@@ -82,7 +55,7 @@ void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argument
 
             strcpy(solicitud->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
         }
-        else if (!strcmp(solicitud->comando, COMANDO_CONTACTAR_SUPER))
+        else if (strcmp(solicitud->comando, COMANDO_CONTACTAR_SUPER) == 0)
         {
 
             strcpy(solicitud->archivo, *(&argumentos[CONTACTAR_POSICION_ARCHIVO]));
@@ -109,5 +82,25 @@ void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argument
         {
             mostrar_ayuda();
         }
+    }
+}
+
+void ejecutar_solicitud(parametros_comando_t query)
+{
+
+    if ((strcmp(query.comando, COMANDO_LISTAR_SUPERS)) == 0)
+    {
+    }
+    else if (strcmp(query.comando, COMANDO_CONTACTAR_SUPER) == 0)
+    {
+    }
+    else if (strcmp(query.comando, COMANDO_MODIFICAR_SUPER) == 0)
+    {
+    }
+    else if (strcmp(query.comando, COMANDO_AGREGAR_SUPER) == 0)
+    {
+    }
+    else if (strcmp(query.comando, COMANDO_AYUDA) == 0)
+    {
     }
 }

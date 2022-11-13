@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include "constantes.h"
 #include "comandos.h"
 
@@ -19,6 +17,8 @@ int main(int argc, char *argv[])
     strcpy(solicitud.comando, argv[POSICION_COMANDO]);
 
     asignar_datos_segun_comando(&solicitud, argv, argc);
+
+    ejecutar_solicitud(solicitud);
 
     printf("COMANDO: %s\n", solicitud.comando);
     printf("ID: %i\n", solicitud.heroe.id);
