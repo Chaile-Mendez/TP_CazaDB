@@ -2,6 +2,7 @@
 #define __CONSTANTES_H__
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 /**/
 #define MAX_LONGITUD_COMANDO 20
@@ -9,11 +10,11 @@
 #define MAX_NOMBRE 30
 #define MAX_NOMBRE_ARCHIVO 40
 
-static const int CANTIDAD_ARGUEMENTOS_LISTAR = 3;
-static const int CANTIDAD_ARGUEMENTOS_CONTACTAR = 4;
-static const int CANTIDAD_ARGUEMENTOS_MODIFICAR = 6;
-static const int CANTIDAD_ARGUEMENTOS_AGREGAR = 7;
-static const int CANTIDAD_ARGUEMENTOS_AYUDA = 2;
+static const int MINIMO_ARGUMENTOS_LISTAR = 3;
+static const int MINIMO_ARGUMENTOS_CONTACTAR = 4;
+static const int MINIMO_ARGUEMENTOS_MODIFICAR = 6;
+static const int MINIMO_ARGUEMENTOS_AGREGAR = 7;
+static const int MINIMO_ARGUEMENTOS_AYUDA = 2;
 
 /*Indice de los datos en la linea de comandos*/
 static const int POSICION_COMANDO = 1;
@@ -36,7 +37,7 @@ static const int AGREGAR_POSICION_ARCHIVO = 6;
 
 /**/
 static const int FINALIZAR_PROGRAMA = -1;
-static const int MAX_ARGUMENTOS_PROGRAMA = 4;
+static const int MAX_ARGUMENTOS_PROGRAMA = 9;
 
 /**/
 static const char COMANDO_LISTAR_SUPERS[MAX_LONGITUD_COMANDO] = "listar";
@@ -45,13 +46,18 @@ static const char COMANDO_MODIFICAR_SUPER[MAX_LONGITUD_COMANDO] = "modificar";
 static const char COMANDO_AGREGAR_SUPER[MAX_LONGITUD_COMANDO] = "agregar";
 static const char COMANDO_AYUDA[MAX_LONGITUD_COMANDO] = "ayuda";
 
-typedef struct parametros_comando
+typedef struct datos_heroe
 {
-    char comando[MAX_LONGITUD_COMANDO];
     int id;
     char nombre[MAX_NOMBRE];
     char estado;
     int edad;
+} datos_heroe_t;
+
+typedef struct parametros_comando
+{
+    char comando[MAX_LONGITUD_COMANDO];
+    datos_heroe_t heroe;
     char archivo[MAX_NOMBRE_ARCHIVO];
     int cantidad_arguementos;
 } parametros_comando_t;
