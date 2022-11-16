@@ -1,18 +1,16 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*El formato es :  ID;Nombre;Edad;Estado  */
 
 /*Constantes*/
 #define MAX_ALFABETO 30
 const char ALFABETO[MAX_ALFABETO] = "ABCDEFGHIJKLMNOPQRSUVWXYZ ";
-const int TOPE_ALFABETO = 27;
+const int TOPE_ALFABETO = 26;
 const char ARCHIVO[MAX_ALFABETO] = "./random_list.cvs";
 const int FINALIZAR_PROGRAMA = -1;
-
-
-
 
 /*Devuelve un numero aleatorio entre dos numeros*/
 int obtener_numero_random(int minimo, int maximo)
@@ -25,6 +23,7 @@ int obtener_numero_random(int minimo, int maximo)
 /* Asigna un string de caracteres aleatorios da una longitud */
 void string_aleatorio(char string[], int longitud)
 {
+    int espacios = 0;
     int indice_aleatorio = -1;
     for (int i = 0; i < longitud; i++)
     {
@@ -37,7 +36,6 @@ void string_aleatorio(char string[], int longitud)
 int main(int argc, char const *argv[])
 {
     srand((unsigned)time(NULL)); // Semilla
-
 
     if (argc != 2)
     {
@@ -55,7 +53,7 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < repeticiones; i++)
     {
-        string_aleatorio(nombre, 10);
+        string_aleatorio(nombre, obtener_numero_random(4, 30));
         edad = obtener_numero_random(0, 100);
 
         if (obtener_numero_random(0, 1))

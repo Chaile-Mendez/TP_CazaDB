@@ -17,25 +17,68 @@ void log_s(char string[])
 }
 /**/
 
-void listar_super()
+void listar_super(parametros_comando_t datos)
 {
-    printf("lista los supers");
+    FILE *heroes = fopen(datos.archivo, "r");
+    if (heroes == NULL)
+    {
+        perror("Error al abrir el archivo de lectura");
+    }
+    else
+    {
+
+        while (!feof(heroes)) // !feof(heroes)
+        {
+
+            fscanf(heroes, "%i;%[^;];%i;%c\n", &(datos.heroe.id), &(*datos.heroe.nombre), &(datos.heroe.edad), &(datos.heroe.estado));
+            //printf("|| %i | %s | %i | %c |\n", datos.heroe.id, datos.heroe.nombre, datos.heroe.edad, datos.heroe.estado);
+            escribir_linea(datos);
+        }
+        printf("lista los supers\n");
+        printf("ARCHIVO: %s\n", datos.archivo);
+    }
+    fclose(heroes);
 }
-void contactar_super()
+
+void contactar_super(parametros_comando_t datos)
 {
-    printf("contacta un super");
+    printf("contacta un super\n");
+    printf("ID: %i\n", datos.heroe.id);
+    printf("ARCHIVO: %s\n", datos.archivo);
 }
-void modificar_super()
+
+void modificar_super(parametros_comando_t datos)
 {
-    printf("Modifica un super");
+    bool si_cumple_condiciones = comprobar_edad(datos.heroe.edad) && comprobar_estado(datos.heroe.estado);
+
+    if (si_cumple_condiciones)
+    {
+        printf("Modifica un super\n");
+        printf("ID: %i\n", datos.heroe.id);
+        printf("EDAD: %i\n", datos.heroe.edad);
+        printf("ESTADO: %c\n", datos.heroe.estado);
+        printf("ARCHIVO: %s\n", datos.archivo);
+    }
 }
-void agregar_super()
+
+void agregar_super(parametros_comando_t datos)
 {
-    printf("agrega un super heroe");
+    bool si_cumple_condiciones = comprobar_edad(datos.heroe.edad) && comprobar_estado(datos.heroe.estado) && comprobar_nombre(datos.heroe.nombre);
+
+    if (si_cumple_condiciones)
+    {
+        printf("agrega un super heroe\n");
+        printf("ID: %i\n", datos.heroe.id);
+        printf("NOMBRE: %s\n", datos.heroe.nombre);
+        printf("ESTADO: %c\n", datos.heroe.estado);
+        printf("EDAD: %i\n", datos.heroe.edad);
+        printf("ARCHIVO: %s\n", datos.archivo);
+    }
 }
+
 void mostrar_ayuda()
 {
-    printf("mostrar informacion del programa");
+    printf("mostrar informacion del programa\n");
 }
 
 void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argumentos[], int cantidad_argumentos)
@@ -52,7 +95,6 @@ void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argument
     {
         if ((strcmp(solicitud->comando, COMANDO_LISTAR_SUPERS)) == 0)
         {
-
             strcpy(solicitud->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
         }
         else if (strcmp(solicitud->comando, COMANDO_CONTACTAR_SUPER) == 0)
@@ -90,17 +132,22 @@ void ejecutar_solicitud(parametros_comando_t query)
 
     if ((strcmp(query.comando, COMANDO_LISTAR_SUPERS)) == 0)
     {
+        listar_super(query);
     }
     else if (strcmp(query.comando, COMANDO_CONTACTAR_SUPER) == 0)
     {
+        contactar_super(query);
     }
     else if (strcmp(query.comando, COMANDO_MODIFICAR_SUPER) == 0)
     {
+        modificar_super(query);
     }
     else if (strcmp(query.comando, COMANDO_AGREGAR_SUPER) == 0)
     {
+        agregar_super(query);
     }
     else if (strcmp(query.comando, COMANDO_AYUDA) == 0)
     {
+        mostrar_ayuda();
     }
 }

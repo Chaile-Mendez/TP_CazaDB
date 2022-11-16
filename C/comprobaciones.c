@@ -25,19 +25,19 @@ int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO])
     }
 }
 
-bool comprobar_edad(datos_heroe_t datos)
+bool comprobar_edad(int edad)
 {
-    if (datos.edad < 0 || datos.edad > EDAD_MAXIMA)
+    if (edad < 0 || edad > EDAD_MAXIMA)
     {
-        printf("[Solo se aceptan edades entre 0 y %i]\n", datos.edad);
+        printf("[Solo se aceptan edades entre 0 y %i]\n", EDAD_MAXIMA);
         return false;
     }
     return true;
 }
 
-bool comprobar_estado(datos_heroe_t datos)
+bool comprobar_estado(char estado)
 {
-    if (datos.estado == ESTADO_VIVO || datos.estado == ESTADO_MUERTO)
+    if (estado == ESTADO_VIVO || estado == ESTADO_MUERTO)
     {
         return true;
     }
@@ -46,4 +46,51 @@ bool comprobar_estado(datos_heroe_t datos)
         printf("Los caracteres validos para el estado son %c y %c", ESTADO_VIVO, ESTADO_MUERTO);
         return false;
     }
+}
+
+bool comprobar_nombre(char nombre[MAX_NOMBRE])
+{
+    if (strlen(nombre) > MAX_NOMBRE)
+    {
+        printf("El nombre ingresado exede el limite maximo de %i caracteres\n", MAX_NOMBRE);
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+void escribir_linea(parametros_comando_t datos)
+{
+    char columna_id[MAX_ANCHO_COLUMNA] = " ";
+    char columna_nombre[MAX_ANCHO_COLUMNA] = " ";
+    char columna_edad[MAX_ANCHO_COLUMNA] = " ";
+
+    sprintf(columna_id, "%i", datos.heroe.id);
+    sprintf(columna_edad, "%i", datos.heroe.edad);
+    strcpy(columna_nombre, datos.heroe.nombre);
+
+    int longitud_id = (int)(strlen(columna_id));
+    int longtiud_edad = (int)(strlen(columna_edad));
+    int lontitud_nombre = (int)(strlen(columna_nombre));
+
+    for (int i = longitud_id; i < MAX_COLUMNA_ID; i++)
+    {
+        strcat(columna_id, " ");
+    }
+
+    for (int i = longtiud_edad; i < MAX_COLUMNA_EDAD; i++)
+    {
+        strcat(columna_edad, " ");
+    }
+    for (int i = lontitud_nombre; i < MAX_COLUMNA_NOMBRE; i++)
+    {
+        strcat(columna_nombre, " ");
+    }
+
+    printf("| %s| %s| %s| %c |\n", columna_id, columna_nombre, columna_edad, datos.heroe.estado);
+}
+
+void leer_linea(FILE *archivo, parametros_comando_t *datos)
+{
 }
