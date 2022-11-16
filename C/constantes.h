@@ -7,14 +7,17 @@
 #include <stdio.h>
 
 /**/
-#define MAX_LONmn GITUD_COMANDO 20
+#define MAX_LONGITUD_COMANDO 20
 #define MAX_LONGITUD_ARGUMENTO 40
 #define MAX_NOMBRE 30
 #define MAX_NOMBRE_ARCHIVO 40
 #define MAX_LINEA 250
 #define MAX_ANCHO_COLUMNA 50
 
-#define MAX_COLUMNA_ID 10
+/**/
+#define MAX_COLUMNA_ID 8
+#define MAX_COLUMNA_EDAD 5
+#define MAX_COLUMNA_NOMBRE MAX_NOMBRE+5
 
 static const int EDAD_MAXIMA = 100;
 

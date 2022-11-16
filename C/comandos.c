@@ -26,14 +26,13 @@ void listar_super(parametros_comando_t datos)
     }
     else
     {
-        while (!feof(heroes))
+
+        while (!feof(heroes)) // !feof(heroes)
         {
-            char id[MAX_ANCHO_COLUMNA];
-            char edad[MAX_ANCHO_COLUMNA];
-            fscanf(heroes, "%[^;];%[^;]%[^;]%c\n", id, &(*datos.heroe.nombre), edad, &datos.heroe.estado);
-            printf("|| %i | %s | %i | %c |\n", datos.heroe.id, datos.heroe.nombre, datos.heroe.edad, datos.heroe.estado);
-            // char linea[MAX_LINEA];
-            // escribir_linea(linea, datos);
+
+            fscanf(heroes, "%i;%[^;];%i;%c\n", &(datos.heroe.id), &(*datos.heroe.nombre), &(datos.heroe.edad), &(datos.heroe.estado));
+            //printf("|| %i | %s | %i | %c |\n", datos.heroe.id, datos.heroe.nombre, datos.heroe.edad, datos.heroe.estado);
+            escribir_linea(datos);
         }
         printf("lista los supers\n");
         printf("ARCHIVO: %s\n", datos.archivo);

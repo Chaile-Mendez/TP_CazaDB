@@ -60,25 +60,37 @@ bool comprobar_nombre(char nombre[MAX_NOMBRE])
         return true;
     }
 }
-void escribir_linea(char linea[MAX_LINEA], parametros_comando_t datos)
+void escribir_linea(parametros_comando_t datos)
 {
-    char columna_id[MAX_ANCHO_COLUMNA];
-    char columna_nombre[MAX_ANCHO_COLUMNA] = "NOMBRE";
-    char columna_edad[MAX_ANCHO_COLUMNA] = "000";
-    char columna_estado[MAX_ANCHO_COLUMNA] = "X";
+    char columna_id[MAX_ANCHO_COLUMNA] = " ";
+    char columna_nombre[MAX_ANCHO_COLUMNA] = " ";
+    char columna_edad[MAX_ANCHO_COLUMNA] = " ";
 
-    sprintf(columna_id, " %i", datos.heroe.id);
+    sprintf(columna_id, "%i", datos.heroe.id);
+    sprintf(columna_edad, "%i", datos.heroe.edad);
+    strcpy(columna_nombre, datos.heroe.nombre);
+
     int longitud_id = (int)(strlen(columna_id));
+    int longtiud_edad = (int)(strlen(columna_edad));
+    int lontitud_nombre = (int)(strlen(columna_nombre));
 
     for (int i = longitud_id; i < MAX_COLUMNA_ID; i++)
     {
         strcat(columna_id, " ");
     }
 
-    printf("|%s| %s %s %s", columna_id, columna_nombre, columna_edad, columna_estado);
+    for (int i = longtiud_edad; i < MAX_COLUMNA_EDAD; i++)
+    {
+        strcat(columna_edad, " ");
+    }
+    for (int i = lontitud_nombre; i < MAX_COLUMNA_NOMBRE; i++)
+    {
+        strcat(columna_nombre, " ");
+    }
+
+    printf("| %s| %s| %s| %c |\n", columna_id, columna_nombre, columna_edad, datos.heroe.estado);
 }
 
 void leer_linea(FILE *archivo, parametros_comando_t *datos)
 {
-
 }
