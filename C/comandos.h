@@ -5,13 +5,13 @@ void log_c(char character);
 void log_i(int integer);
 void log_s(char string[]);
 
-void listar_super();
+void listar_super(parametros_comando_t datos);
 
-void contactar_super();
+void contactar_super(parametros_comando_t datos);
 
-void modificar_super();
+void modificar_super(parametros_comando_t datos);
 
-void agregar_super();
+void agregar_super(parametros_comando_t datos);
 
 void mostrar_ayuda();
 
