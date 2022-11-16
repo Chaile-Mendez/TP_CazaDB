@@ -78,6 +78,8 @@ void escribir_linea(parametros_comando_t datos)
     {
         strcat(columna_id, " ");
     }
+    
+    //Hi
 
     for (int i = longtiud_edad; i < MAX_COLUMNA_EDAD; i++)
     {
