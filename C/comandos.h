@@ -1,10 +1,6 @@
 #ifndef __COMANDOS_H__
 #define __COMANDOS_H__
 
-void log_c(char character);
-void log_i(int integer);
-void log_s(char string[]);
-
 void listar_super(parametros_comando_t datos);
 
 void contactar_super(parametros_comando_t datos);
