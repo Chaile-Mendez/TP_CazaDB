@@ -78,8 +78,8 @@ void escribir_linea(parametros_comando_t datos)
     {
         strcat(columna_id, " ");
     }
-    
-    //Hi
+
+    // Hi
 
     for (int i = longtiud_edad; i < MAX_COLUMNA_EDAD; i++)
     {
@@ -90,9 +90,5 @@ void escribir_linea(parametros_comando_t datos)
         strcat(columna_nombre, " ");
     }
 
-    printf("| %s| %s| %s| %c |\n", columna_id, columna_nombre, columna_edad, datos.heroe.estado);
-}
-
-void leer_linea(FILE *archivo, parametros_comando_t *datos)
-{
+    printf("|%s|%s|%s| %c |\n", columna_id, columna_nombre, columna_edad, datos.heroe.estado);
 }

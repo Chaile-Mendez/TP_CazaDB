@@ -13,11 +13,13 @@
 #define MAX_NOMBRE_ARCHIVO 40
 #define MAX_LINEA 250
 #define MAX_ANCHO_COLUMNA 50
+#define CANTIDAD_COLUMNAS 4
 
 /**/
 #define MAX_COLUMNA_ID 8
 #define MAX_COLUMNA_EDAD 5
-#define MAX_COLUMNA_NOMBRE MAX_NOMBRE+5
+#define MAX_COLUMNA_NOMBRE MAX_NOMBRE + 5
+
 
 static const int EDAD_MAXIMA = 100;
 
@@ -27,7 +29,7 @@ static const int MINIMO_ARGUEMENTOS_MODIFICAR = 6;
 static const int MINIMO_ARGUEMENTOS_AGREGAR = 7;
 static const int MINIMO_ARGUEMENTOS_AYUDA = 2;
 
-static const char ESTADO_VIVO= 'V';
+static const char ESTADO_VIVO = 'V';
 static const char ESTADO_MUERTO = 'M';
 
 /*Indice de los datos en la linea de comandos*/

@@ -13,6 +13,4 @@ bool comprobar_nombre(char nombre[MAX_NOMBRE]);
 
 void escribir_linea(parametros_comando_t datos);
 
-void leer_linea(FILE *archivo, parametros_comando_t *datos);
-
 #endif /* __COMPROBACIONES_H__ */

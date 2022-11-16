@@ -2,21 +2,6 @@
 #include "comandos.h"
 #include "comprobaciones.h"
 
-/**/
-void log_c(char character)
-{
-    printf("%c\n", character);
-}
-void log_i(int integer)
-{
-    printf("%i\n", integer);
-}
-void log_s(char string[])
-{
-    printf("%s\n", string);
-}
-/**/
-
 void listar_super(parametros_comando_t datos)
 {
     FILE *heroes = fopen(datos.archivo, "r");
@@ -29,13 +14,11 @@ void listar_super(parametros_comando_t datos)
 
         while (!feof(heroes)) // !feof(heroes)
         {
-
-            fscanf(heroes, "%i;%[^;];%i;%c\n", &(datos.heroe.id), &(*datos.heroe.nombre), &(datos.heroe.edad), &(datos.heroe.estado));
-            //printf("|| %i | %s | %i | %c |\n", datos.heroe.id, datos.heroe.nombre, datos.heroe.edad, datos.heroe.estado);
-            escribir_linea(datos);
+            if (CANTIDAD_COLUMNAS == fscanf(heroes, "%i;%[^;];%i;%c\n", &(datos.heroe.id), &(*datos.heroe.nombre), &(datos.heroe.edad), &(datos.heroe.estado)))
+            {
+                escribir_linea(datos);
+            }
         }
-        printf("lista los supers\n");
-        printf("ARCHIVO: %s\n", datos.archivo);
     }
     fclose(heroes);
 }
@@ -50,7 +33,6 @@ void contactar_super(parametros_comando_t datos)
 void modificar_super(parametros_comando_t datos)
 {
     bool si_cumple_condiciones = comprobar_edad(datos.heroe.edad) && comprobar_estado(datos.heroe.estado);
-
     if (si_cumple_condiciones)
     {
         printf("Modifica un super\n");
