@@ -1,6 +1,7 @@
 #include "constantes.h"
 #include "comandos.h"
 #include "comprobaciones.h"
+#include "control.h"
 
 void listar_super(parametros_comando_t datos)
 {
@@ -12,7 +13,7 @@ void listar_super(parametros_comando_t datos)
     else
     {
 
-        while (!feof(heroes)) // !feof(heroes)
+        while (!feof(heroes))
         {
             if (CANTIDAD_COLUMNAS == fscanf(heroes, "%i;%[^;];%i;%c\n", &(datos.heroe.id), &(*datos.heroe.nombre), &(datos.heroe.edad), &(datos.heroe.estado)))
             {
@@ -35,11 +36,20 @@ void modificar_super(parametros_comando_t datos)
     bool si_cumple_condiciones = comprobar_edad(datos.heroe.edad) && comprobar_estado(datos.heroe.estado);
     if (si_cumple_condiciones)
     {
-        printf("Modifica un super\n");
-        printf("ID: %i\n", datos.heroe.id);
-        printf("EDAD: %i\n", datos.heroe.edad);
-        printf("ESTADO: %c\n", datos.heroe.estado);
-        printf("ARCHIVO: %s\n", datos.archivo);
+        FILE *heroes = fopen(datos.archivo, "r");
+        if (heroes == NULL)
+        {
+            perror("Error al abrir el archivo de lectura");
+        }
+        else
+        {
+            int lista_ids[MAX_LINEAS];
+            int tope_ids = 0;
+            listar_ids(lista_ids, &tope_ids, heroes);
+
+            int pos_id = busqueda_binaria(datos.heroe.id, lista_ids, tope_ids);
+            printf("\nPOSICION: %i \n", pos_id);
+        }
     }
 }
 
@@ -111,7 +121,6 @@ void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argument
 
 void ejecutar_solicitud(parametros_comando_t query)
 {
-
     if ((strcmp(query.comando, COMANDO_LISTAR_SUPERS)) == 0)
     {
         listar_super(query);
