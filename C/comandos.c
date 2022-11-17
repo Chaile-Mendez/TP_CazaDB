@@ -109,7 +109,7 @@ int agregar_super(parametros_comando_t datos)
     if (posicion_linea == BUSCADO_NO_EXISTE)
     {
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
-        saltear_linea(heroes);
+        /*Colocar añadido*/
         reescribir_hasta_final(heroes, archivo_auxiliar);
     }
     else
@@ -117,6 +117,7 @@ int agregar_super(parametros_comando_t datos)
         perror("Ya existe el ID dentro del archivo");
         return ERROR;
     }
+
 
     printf("agrega un super heroe\n");
     printf("ID: %i\n", datos.heroe.id);
