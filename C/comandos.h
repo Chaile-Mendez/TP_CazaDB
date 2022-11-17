@@ -1,13 +1,13 @@
 #ifndef __COMANDOS_H__
 #define __COMANDOS_H__
 
-void listar_super(parametros_comando_t datos);
+int listar_super(parametros_comando_t datos);
 
-void contactar_super(parametros_comando_t datos);
+int contactar_super(parametros_comando_t datos);
 
-void modificar_super(parametros_comando_t datos);
+int modificar_super(parametros_comando_t datos);
 
-void agregar_super(parametros_comando_t datos);
+int agregar_super(parametros_comando_t datos);
 
 void mostrar_ayuda();
 

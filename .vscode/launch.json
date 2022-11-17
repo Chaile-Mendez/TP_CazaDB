@@ -6,13 +6,7 @@
       "request": "launch",
       "name": "DEBUG:LiLITE",
       "program": "${workspaceFolder}/caza",
-      "args": [
-        "modificar",
-        "7",
-        "46",
-        "V",
-        "superheroo.exeeeee"
-      ],
+      "args": ["contactar", "7", "random_list.cvs"],
       "cwd": "${workspaceFolder}"
     },
     {

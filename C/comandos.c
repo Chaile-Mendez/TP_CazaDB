@@ -3,12 +3,13 @@
 #include "comprobaciones.h"
 #include "control.h"
 
-void listar_super(parametros_comando_t datos)
+int listar_super(parametros_comando_t datos)
 {
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
     {
         perror("Error al abrir el archivo de lectura");
+        return ERROR;
     }
     else
     {
@@ -22,50 +23,109 @@ void listar_super(parametros_comando_t datos)
         }
     }
     fclose(heroes);
+    return OK;
 }
 
-void contactar_super(parametros_comando_t datos)
+int contactar_super(parametros_comando_t datos)
 {
-    printf("contacta un super\n");
+    FILE *heroes = fopen(datos.archivo, "r");
+    if (heroes == NULL)
+    {
+        perror("Error al abrir el archivo");
+        return ERROR;
+    }
+    FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
+    if (archivo_auxiliar == NULL)
+    {
+        fclose(heroes);
+        perror("Error al abrir el archivo");
+        return ERROR;
+    }
+
+    int posicion_linea = obtener_posicion(datos.heroe.id, datos.archivo);
+
+    if (posicion_linea != BUSCADO_NO_EXISTE)
+    {
+        reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
+        saltear_linea(heroes);
+        reescribir_hasta_final(heroes, archivo_auxiliar);
+    }
+
+    fclose(heroes);
+    fclose(archivo_auxiliar);
+    remove(datos.archivo);
+    rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
+    return OK;
+}
+
+int modificar_super(parametros_comando_t datos)
+{
+    if (!(comprobar_edad_valida(datos.heroe.edad)) && !(comprobar_estado_valido(datos.heroe.estado)))
+    {
+        return ERROR;
+    }
+
+    FILE *heroes = fopen(datos.archivo, "r");
+    if (heroes == NULL)
+    {
+        perror("Error al abrir el archivo de lectura");
+        return ERROR;
+    }
+
+    int ids_archivo[MAX_LINEAS];
+    int tope_ids = 0;
+    listar_ids(ids_archivo, &tope_ids, datos.archivo);
+
+    int posicion_dato = busqueda_binaria(datos.heroe.id, ids_archivo, tope_ids);
+    printf("\nPOSICION: %i \n", posicion_dato);
+
+    return OK;
+}
+
+int agregar_super(parametros_comando_t datos)
+{
+    if (!(comprobar_edad_valida(datos.heroe.edad)) && !(comprobar_estado_valido(datos.heroe.estado)) && !(comprobar_nombre_valido(datos.heroe.nombre)))
+    {
+        perror("Datos ingresados invalidos");
+        return ERROR;
+    }
+
+    FILE *heroes = fopen(datos.archivo, "r");
+    if (heroes == NULL)
+    {
+        perror("Error al abrir el archivo");
+        return ERROR;
+    }
+    FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
+    if (archivo_auxiliar == NULL)
+    {
+        fclose(heroes);
+        perror("Error al abrir el archivo");
+        return ERROR;
+    }
+
+    int posicion_linea = obtener_posicion(datos.heroe.id, datos.archivo);
+
+    if (posicion_linea == BUSCADO_NO_EXISTE)
+    {
+        reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
+        saltear_linea(heroes);
+        reescribir_hasta_final(heroes, archivo_auxiliar);
+    }
+    else
+    {
+        perror("Ya existe el ID dentro del archivo");
+        return ERROR;
+    }
+
+    printf("agrega un super heroe\n");
     printf("ID: %i\n", datos.heroe.id);
+    printf("NOMBRE: %s\n", datos.heroe.nombre);
+    printf("ESTADO: %c\n", datos.heroe.estado);
+    printf("EDAD: %i\n", datos.heroe.edad);
     printf("ARCHIVO: %s\n", datos.archivo);
-}
 
-void modificar_super(parametros_comando_t datos)
-{
-    bool si_cumple_condiciones = comprobar_edad(datos.heroe.edad) && comprobar_estado(datos.heroe.estado);
-    if (si_cumple_condiciones)
-    {
-        FILE *heroes = fopen(datos.archivo, "r");
-        if (heroes == NULL)
-        {
-            perror("Error al abrir el archivo de lectura");
-        }
-        else
-        {
-            int lista_ids[MAX_LINEAS];
-            int tope_ids = 0;
-            listar_ids(lista_ids, &tope_ids, heroes);
-
-            int pos_id = busqueda_binaria(datos.heroe.id, lista_ids, tope_ids);
-            printf("\nPOSICION: %i \n", pos_id);
-        }
-    }
-}
-
-void agregar_super(parametros_comando_t datos)
-{
-    bool si_cumple_condiciones = comprobar_edad(datos.heroe.edad) && comprobar_estado(datos.heroe.estado) && comprobar_nombre(datos.heroe.nombre);
-
-    if (si_cumple_condiciones)
-    {
-        printf("agrega un super heroe\n");
-        printf("ID: %i\n", datos.heroe.id);
-        printf("NOMBRE: %s\n", datos.heroe.nombre);
-        printf("ESTADO: %c\n", datos.heroe.estado);
-        printf("EDAD: %i\n", datos.heroe.edad);
-        printf("ARCHIVO: %s\n", datos.archivo);
-    }
+    return OK;
 }
 
 void mostrar_ayuda()

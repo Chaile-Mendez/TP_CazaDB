@@ -6,6 +6,9 @@
 #include <string.h>
 #include <stdio.h>
 
+
+#define ERROR -1
+#define OK 1
 static const int BUSCADO_NO_EXISTE = -1;
 /**/
 #define MAX_LONGITUD_COMANDO 20
@@ -18,7 +21,10 @@ static const int BUSCADO_NO_EXISTE = -1;
 /**/
 #define MAX_COLUMNA_ID 8
 #define MAX_COLUMNA_EDAD 5
-#define MAX_COLUMNA_NOMBRE MAX_NOMBRE + 5
+#define MAX_COLUMNA_NOMBRE MAX_NOMBRE + MAX_COLUMNA_ESTADO
+#define MAX_COLUMNA_ESTADO 5
+
+#define MAX_LONGITUD_LINEA MAX_COLUMNA_ID + MAX_COLUMNA_NOMBRE + MAX_COLUMNA_ESTADO
 
 static const int EDAD_MAXIMA = 100;
 
@@ -54,6 +60,7 @@ static const int AGREGAR_POSICION_ARCHIVO = 6;
 static const int FINALIZAR_PROGRAMA = -1;
 static const int MAX_ARGUMENTOS_PROGRAMA = 9;
 
+static const char NOMBRE_ARCHIVO_AUXILIAR[MAX_NOMBRE_ARCHIVO] = "auxiliar.cvs";
 /**/
 static const char COMANDO_LISTAR_SUPERS[MAX_LONGITUD_COMANDO] = "listar";
 static const char COMANDO_CONTACTAR_SUPER[MAX_LONGITUD_COMANDO] = "contactar";

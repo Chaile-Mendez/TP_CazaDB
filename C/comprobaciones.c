@@ -2,7 +2,6 @@
 
 int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO])
 {
-
     if ((strcmp(comando, COMANDO_LISTAR_SUPERS)) == 0)
     {
         return MINIMO_ARGUMENTOS_LISTAR;
@@ -25,7 +24,7 @@ int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO])
     }
 }
 
-bool comprobar_edad(int edad)
+bool comprobar_edad_valida(int edad)
 {
     if (edad < 0 || edad > EDAD_MAXIMA)
     {
@@ -35,7 +34,7 @@ bool comprobar_edad(int edad)
     return true;
 }
 
-bool comprobar_estado(char estado)
+bool comprobar_estado_valido(char estado)
 {
     if (estado == ESTADO_VIVO || estado == ESTADO_MUERTO)
     {
@@ -48,7 +47,7 @@ bool comprobar_estado(char estado)
     }
 }
 
-bool comprobar_nombre(char nombre[MAX_NOMBRE])
+bool comprobar_nombre_valido(char nombre[MAX_NOMBRE])
 {
     if (strlen(nombre) > MAX_NOMBRE)
     {
@@ -60,6 +59,7 @@ bool comprobar_nombre(char nombre[MAX_NOMBRE])
         return true;
     }
 }
+
 void escribir_linea(parametros_comando_t datos)
 {
     char columna_id[MAX_ANCHO_COLUMNA] = " ";
