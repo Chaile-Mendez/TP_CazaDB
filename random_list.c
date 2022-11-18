@@ -9,7 +9,7 @@
 #define MAX_ALFABETO 30
 const char ALFABETO[MAX_ALFABETO] = "ABCDEFGHIJKLMNOPQRSUVWXYZ ";
 const int TOPE_ALFABETO = 26;
-const char ARCHIVO[MAX_ALFABETO] = "./random_list.cvs";
+const char ARCHIVO[MAX_ALFABETO] = "./lista.cvs";
 const int FINALIZAR_PROGRAMA = -1;
 
 /*Devuelve un numero aleatorio entre dos numeros*/

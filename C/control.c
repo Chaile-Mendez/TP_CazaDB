@@ -61,9 +61,9 @@ void reescribir_hasta(FILE *fuente, FILE *destino, int posicion)
     char linea[MAX_LONGITUD_LINEA];
     int i = 0;
 
-    while (i < posicion)
+    while (i < posicion && (1 == fscanf(fuente, "%[^\n]\n", linea)))
     {
-        fscanf(fuente, "%[^\n]\n", linea);
+        // fscanf(fuente, "%[^\n]\n", linea);
         fprintf(destino, "%s\n", linea);
         i++;
     }
@@ -74,7 +74,7 @@ void reescribir_hasta_final(FILE *fuente, FILE *destino)
     char linea[MAX_LONGITUD_LINEA];
     while (1 == fscanf(fuente, "%[^\n]\n", linea))
     {
-        fscanf(fuente, "%[^\n]\n", linea);
+        // fscanf(fuente, "%[^\n]\n", linea);
         fprintf(destino, "%s\n", linea);
     }
 }
@@ -82,10 +82,7 @@ void reescribir_hasta_final(FILE *fuente, FILE *destino)
 void saltear_linea(FILE *fuente)
 {
     char linea[MAX_LONGITUD_LINEA];
-    if (!feof(fuente))
-    {
-        fscanf(fuente, "%[^\n]\n", linea);
-    }
+    fscanf(fuente, "%[^\n]\n", linea);
 }
 
 int obtener_posicion(int id, char archivo[MAX_NOMBRE_ARCHIVO])

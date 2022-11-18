@@ -11,12 +11,13 @@
         "listar",
         "random_list.cvs"
         */
-        "agregar",
-        "90",
-        "Blackwidow",
-        "31",
-        "V",
-        "random_list.cvs"
+        //"agregar",
+        "contactar",
+        //"90",
+        //"Blackwidow",
+        "7",
+        //"V",
+        "lista.cvs"
       ],
       "cwd": "${workspaceFolder}"
     },
