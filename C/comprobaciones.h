@@ -11,6 +11,6 @@ bool comprobar_estado_valido(char estado);
 
 bool comprobar_nombre_valido(char nombre[MAX_NOMBRE]);
 
-void escribir_linea(parametros_comando_t datos);
+void escribir_linea_en_consola(parametros_comando_t datos);
 
 #endif /* __COMPROBACIONES_H__ */

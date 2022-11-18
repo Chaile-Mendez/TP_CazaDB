@@ -72,7 +72,7 @@ void reescribir_hasta(FILE *fuente, FILE *destino, int posicion)
 void reescribir_hasta_final(FILE *fuente, FILE *destino)
 {
     char linea[MAX_LONGITUD_LINEA];
-    while (!feof(fuente))
+    while (1 == fscanf(fuente, "%[^\n]\n", linea))
     {
         fscanf(fuente, "%[^\n]\n", linea);
         fprintf(destino, "%s\n", linea);
@@ -97,4 +97,36 @@ int obtener_posicion(int id, char archivo[MAX_NOMBRE_ARCHIVO])
     int posicion = busqueda_binaria(id, ids_archivo, tope_ids);
     printf("Posicion en archivo -%s-: %i \n", archivo, posicion);
     return posicion;
+}
+
+int leer_linea(FILE *fuente, datos_heroe_t *super)
+{
+    return fscanf(fuente, FORMATO_LECTURA, &super->id, super->nombre, &super->edad, &super->estado);
+}
+
+void transformar_heroe_a_string(char linea[MAX_LONGITUD_LINEA], datos_heroe_t super)
+{
+    sprintf(linea, "%i;%s;%i;%c", super.id, super.nombre, super.edad, super.estado);
+}
+
+int buscar_maximo_menor(int buscado, char archivo[MAX_NOMBRE_ARCHIVO])
+{
+    int lista_ids[MAX_LINEAS];
+    int tope = 0;
+
+    listar_ids(lista_ids, &tope, archivo);
+
+    int i = 0;
+    int este_numero = -1;
+    while ((i < tope) && (este_numero < buscado))
+    {
+        este_numero = lista_ids[i];
+        i++;
+    }
+    return este_numero;
+}
+
+void escribir_linea(FILE *archivo, datos_heroe_t super)
+{
+    fprintf(archivo, "%i;%s;%i;%c\n", super.id, super.nombre, super.edad, super.estado);
 }

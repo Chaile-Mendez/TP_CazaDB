@@ -18,4 +18,10 @@ void saltear_linea(FILE *fuente);
 
 int obtener_posicion(int id, char archivo[MAX_NOMBRE_ARCHIVO]);
 
+int leer_linea(FILE *fuente, datos_heroe_t *super);
+
+int buscar_maximo_menor(int buscado, char archivo[MAX_NOMBRE_ARCHIVO]);
+
+void escribir_linea(FILE *archivo, datos_heroe_t super);
+
 #endif /* __CONTROL_H__ */

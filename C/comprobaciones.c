@@ -60,7 +60,7 @@ bool comprobar_nombre_valido(char nombre[MAX_NOMBRE])
     }
 }
 
-void escribir_linea(parametros_comando_t datos)
+void escribir_linea_en_consola(parametros_comando_t datos)
 {
     char columna_id[MAX_ANCHO_COLUMNA] = " ";
     char columna_nombre[MAX_ANCHO_COLUMNA] = " ";
@@ -79,12 +79,11 @@ void escribir_linea(parametros_comando_t datos)
         strcat(columna_id, " ");
     }
 
-    // Hi
-
     for (int i = longtiud_edad; i < MAX_COLUMNA_EDAD; i++)
     {
         strcat(columna_edad, " ");
     }
+
     for (int i = lontitud_nombre; i < MAX_COLUMNA_NOMBRE; i++)
     {
         strcat(columna_nombre, " ");
