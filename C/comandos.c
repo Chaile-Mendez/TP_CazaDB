@@ -137,17 +137,20 @@ int agregar_super(parametros_comando_t datos)
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
         escribir_linea(archivo_auxiliar, datos.heroe);
         reescribir_hasta_final(heroes, archivo_auxiliar);
+        fclose(heroes);
+        fclose(archivo_auxiliar);
+        remove(datos.archivo);
+        rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
     }
     else
     {
+        fclose(heroes);
+        fclose(archivo_auxiliar);
+        remove(NOMBRE_ARCHIVO_AUXILIAR);
         perror("Ya existe el ID dentro del archivo");
         return ERROR;
     }
-    
-    fclose(heroes);
-    fclose(archivo_auxiliar);
-    remove(datos.archivo);
-    rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
+
     return OK;
 }
 
