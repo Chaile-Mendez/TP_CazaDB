@@ -68,20 +68,20 @@ static const char COMANDO_MODIFICAR_SUPER[MAX_LONGITUD_COMANDO] = "modificar";
 static const char COMANDO_AGREGAR_SUPER[MAX_LONGITUD_COMANDO] = "agregar";
 static const char COMANDO_AYUDA[MAX_LONGITUD_COMANDO] = "ayuda";
 
-typedef struct datos_heroe
+typedef struct super
 {
     int id;
     char nombre[MAX_NOMBRE];
     char estado;
     int edad;
-} datos_heroe_t;
+} super_t;
 
-typedef struct parametros_comando
+typedef struct parametros
 {
     char comando[MAX_LONGITUD_COMANDO];
-    datos_heroe_t heroe;
+    super_t heroe;
     char archivo[MAX_NOMBRE_ARCHIVO];
     int cantidad_arguementos;
-} parametros_comando_t;
+} parametros_t;
 
 #endif /* __CONSTANTES_H__ */

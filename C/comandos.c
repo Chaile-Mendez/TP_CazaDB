@@ -3,7 +3,7 @@
 #include "comprobaciones.h"
 #include "control.h"
 
-void ejecutar_solicitud(parametros_comando_t query)
+void ejecutar_solicitud(parametros_t query)
 {
     if ((strcmp(query.comando, COMANDO_LISTAR_SUPERS)) == 0)
     {
@@ -27,7 +27,7 @@ void ejecutar_solicitud(parametros_comando_t query)
     }
 }
 
-int listar_super(parametros_comando_t datos)
+int listar_super(parametros_t datos)
 {
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
@@ -50,7 +50,47 @@ int listar_super(parametros_comando_t datos)
     return OK;
 }
 
-int contactar_super(parametros_comando_t datos)
+int contactar_super(parametros_t datos)
+{
+    FILE *heroes = fopen(datos.archivo, "r");
+    if (heroes == NULL)
+    {
+        perror("Error al abrir el archivo");
+        return ERROR;
+    }
+    FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
+    if (archivo_auxiliar == NULL)
+    {
+        fclose(heroes);
+        perror("Error al crear y abrir el archivo");
+        return ERROR;
+    }
+
+    int posicion_linea = obtener_posicion(datos.heroe.id, datos.archivo);
+
+    if (posicion_linea != BUSCADO_NO_EXISTE)
+    {
+        datos_de_heroe_segun_id(&datos, datos.heroe.id);
+        escribir_linea_en_consola(datos);
+        reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
+        saltear_linea(heroes);
+        reescribir_hasta_final(heroes, archivo_auxiliar);
+        fclose(heroes);
+        fclose(archivo_auxiliar);
+        remove(datos.archivo);
+        rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
+    }
+    else
+    {
+        fclose(heroes);
+        fclose(archivo_auxiliar);
+        remove(NOMBRE_ARCHIVO_AUXILIAR);
+    }
+
+    return OK;
+}
+
+int modificar_super(parametros_t datos)
 {
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
@@ -71,42 +111,26 @@ int contactar_super(parametros_comando_t datos)
     if (posicion_linea != BUSCADO_NO_EXISTE)
     {
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
-        saltear_linea(heroes);
+        modificar_linea(heroes, archivo_auxiliar, &datos.heroe);
         reescribir_hasta_final(heroes, archivo_auxiliar);
+        fclose(heroes);
+        fclose(archivo_auxiliar);
+        remove(datos.archivo);
+        rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
     }
-
-    fclose(heroes);
-    fclose(archivo_auxiliar);
-    remove(datos.archivo);
-    rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
-    return OK;
-}
-
-int modificar_super(parametros_comando_t datos)
-{
-    if (!(comprobar_edad_valida(datos.heroe.edad)) && !(comprobar_estado_valido(datos.heroe.estado)))
+    else
     {
+        fclose(heroes);
+        fclose(archivo_auxiliar);
+        remove(NOMBRE_ARCHIVO_AUXILIAR);
+        perror("El ID ingresado no existe");
         return ERROR;
     }
-
-    FILE *heroes = fopen(datos.archivo, "r");
-    if (heroes == NULL)
-    {
-        perror("Error al abrir el archivo de lectura");
-        return ERROR;
-    }
-
-    int ids_archivo[MAX_LINEAS];
-    int tope_ids = 0;
-    listar_ids(ids_archivo, &tope_ids, datos.archivo);
-
-    int posicion_dato = busqueda_binaria(datos.heroe.id, ids_archivo, tope_ids);
-    printf("\nPOSICION: %i \n", posicion_dato);
 
     return OK;
 }
 
-int agregar_super(parametros_comando_t datos)
+int agregar_super(parametros_t datos)
 {
     if (!(comprobar_edad_valida(datos.heroe.edad)) && !(comprobar_estado_valido(datos.heroe.estado)) && !(comprobar_nombre_valido(datos.heroe.nombre)))
     {
@@ -130,13 +154,16 @@ int agregar_super(parametros_comando_t datos)
     }
 
     int existe_id = obtener_posicion(datos.heroe.id, datos.archivo);
-    int posicion_linea = 1 + buscar_maximo_menor(datos.heroe.id, datos.archivo);
+    // int posicion_linea = buscar_maximo_menor(datos.heroe.id, datos.archivo);
 
     if (existe_id == BUSCADO_NO_EXISTE)
     {
-        reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
-        escribir_linea(archivo_auxiliar, datos.heroe);
+        /*reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
+         */
+        transcribir_hasta_id_mayor(heroes, archivo_auxiliar, datos.heroe);
+        // escribir_linea(archivo_auxiliar, datos.heroe);
         reescribir_hasta_final(heroes, archivo_auxiliar);
+
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(datos.archivo);
@@ -159,7 +186,7 @@ void mostrar_ayuda()
     printf("mostrar informacion del programa\n");
 }
 
-void asignar_datos_segun_comando(parametros_comando_t *solicitud, char *argumentos[], int cantidad_argumentos)
+void asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int cantidad_argumentos)
 {
     strcpy(solicitud->comando, *(&argumentos[POSICION_COMANDO]));
     solicitud->cantidad_arguementos = cantidad_argumentos;

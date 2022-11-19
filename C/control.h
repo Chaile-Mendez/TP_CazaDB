@@ -12,16 +12,20 @@ void reescribir_hasta(FILE *fuente, FILE *destino, int posicion);
 
 void reescribir_hasta_final(FILE *fuente, FILE *destino);
 
-void modificar_linea(parametros_comando_t datos, FILE *auxiliar, FILE *original);
+void modificar_linea(FILE *fuente, FILE *destino, super_t *super);
 
 void saltear_linea(FILE *fuente);
 
 int obtener_posicion(int id, char archivo[MAX_NOMBRE_ARCHIVO]);
 
-int leer_linea(FILE *fuente, datos_heroe_t *super);
+int leer_linea(FILE *fuente, super_t *super);
 
 int buscar_maximo_menor(int buscado, char archivo[MAX_NOMBRE_ARCHIVO]);
 
-void escribir_linea(FILE *archivo, datos_heroe_t super);
+void escribir_linea(FILE *archivo, super_t super);
+
+int datos_de_heroe_segun_id(parametros_t *datos, int id);
+
+void transcribir_hasta_id_mayor(FILE *fuente, FILE *destino, super_t super);
 
 #endif /* __CONTROL_H__ */

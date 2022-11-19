@@ -60,7 +60,7 @@ bool comprobar_nombre_valido(char nombre[MAX_NOMBRE])
     }
 }
 
-void escribir_linea_en_consola(parametros_comando_t datos)
+void escribir_linea_en_consola(parametros_t datos)
 {
     char columna_id[MAX_ANCHO_COLUMNA] = " ";
     char columna_nombre[MAX_ANCHO_COLUMNA] = " ";
@@ -91,3 +91,4 @@ void escribir_linea_en_consola(parametros_comando_t datos)
 
     printf("|%s|%s|%s| %c |\n", columna_id, columna_nombre, columna_edad, datos.heroe.estado);
 }
+

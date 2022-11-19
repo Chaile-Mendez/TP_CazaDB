@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 
-    parametros_comando_t solicitud;
+    parametros_t solicitud;
 
     asignar_datos_segun_comando(&solicitud, argv, argc);
 
@@ -12,3 +12,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+ 
