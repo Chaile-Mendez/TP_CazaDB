@@ -87,6 +87,29 @@ int obtener_posicion(int id, char archivo[MAX_NOMBRE_ARCHIVO])
     return posicion;
 }
 
+int posicion_id(char nombre_archivo[MAX_NOMBRE_ARCHIVO], int id)
+{
+    FILE *archivo = fopen(nombre_archivo, "r");
+
+    super_t aux;
+    int posicion = -1;
+    int i = 0;
+
+    leer_linea(archivo, &aux);
+    while (!feof(archivo))
+    {
+        if (aux.id == id)
+        {
+            posicion = i;
+        }
+
+        leer_linea(archivo, &aux);
+        i++;
+    }
+    fclose(archivo);
+    return posicion;
+}
+
 int leer_linea(FILE *fuente, super_t *super)
 {
     return fscanf(fuente, FORMATO_LECTURA, &super->id, super->nombre, &super->edad, &super->estado);
@@ -291,5 +314,25 @@ void completar_ancho_columna(char columna[MAX_ANCHO_COLUMNA], size_t ancho_maxim
     for (size_t i = strlen(columna); i < ancho_maximo; i++)
     {
         strcat(columna, " ");
+    }
+}
+
+void transcribir_y_modificar(FILE *fuente, FILE *destino, parametros_t datos)
+{
+    bool sin_modificar = true;
+    super_t aux;
+
+    while (leer_linea(fuente, &aux) == 4)
+    {
+        if (aux.id == datos.heroe.id && sin_modificar)
+        {
+            aux.edad = datos.heroe.edad;
+            aux.estado = datos.heroe.estado;
+            escribir_linea(destino, aux);
+        }
+        else
+        {
+            escribir_linea(destino, aux);
+        }
     }
 }

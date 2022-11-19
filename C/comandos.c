@@ -113,18 +113,24 @@ int modificar_super(parametros_t datos)
         return ERROR;
     }
 
-    int posicion_linea = obtener_posicion(datos.heroe.id, datos.archivo);
+    // int posicion_linea = obtener_posicion(datos.heroe.id, datos.archivo);
+    int posicion_linea = posicion_id(datos.archivo, datos.heroe.id);
 
     if (posicion_linea != BUSCADO_NO_EXISTE)
     {
+        /*
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
         modificar_linea(heroes, archivo_auxiliar, &datos.heroe);
         reescribir_hasta_final(heroes, archivo_auxiliar);
+        */
+        transcribir_y_modificar(heroes, archivo_auxiliar, datos);
 
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(datos.archivo);
+
         rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
+
         printf("El heroe ha sido modificado a:\n");
         mostrar_heroe_id(&datos);
     }
@@ -209,7 +215,7 @@ int asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int
         return ERROR;
     }
 
-        if ((strcmp(solicitud->comando, COMANDO_LISTAR_SUPERS)) == 0)
+    if ((strcmp(solicitud->comando, COMANDO_LISTAR_SUPERS)) == 0)
     {
         strcpy(solicitud->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
     }

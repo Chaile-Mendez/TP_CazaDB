@@ -11,7 +11,7 @@ const char ALFABETO[MAX_ALFABETO] = "BCDFGHJKLMNPQRSVWXYZ ";
 const int TOPE_ALFABETO = 21;
 const char VOCALES[MAX_ALFABETO] = "AEIOU";
 const int TOPE_VOCALES = 5;
-const char ARCHIVO[MAX_ALFABETO] = "./lista.cvs";
+const char ARCHIVO[MAX_ALFABETO] = "./lista.csv";
 const int FINALIZAR_PROGRAMA = -1;
 
 /*Devuelve un numero aleatorio entre dos numeros*/

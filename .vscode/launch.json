@@ -8,7 +8,7 @@
       "program": "${workspaceFolder}/caza",
       "args": [
         "listar",
-        "lista.cvs"
+        "lista.csv"
       ],
       "cwd": "${workspaceFolder}"
     },
@@ -23,7 +23,7 @@
         "mi nuevo super",
         "33",
         "vivo",
-        "lista.cvs"
+        "lista.csv"
       ],
       "cwd": "${workspaceFolder}"
     },
@@ -35,7 +35,7 @@
       "args": [
         "contactar",
         "10",
-        "lista.cvs"
+        "lista.csv"
       ],
       "cwd": "${workspaceFolder}"
     },
@@ -49,7 +49,7 @@
         "10",
         "101",
         "vivo",
-        "lista.cvs"
+        "lista.csv"
       ],
       "cwd": "${workspaceFolder}"
     },

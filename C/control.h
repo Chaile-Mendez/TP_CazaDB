@@ -42,4 +42,8 @@ void estado_a_texto(char string[MAX_ANCHO_COLUMNA], char estado);
 
 void completar_ancho_columna(char columna[MAX_ANCHO_COLUMNA], size_t ancho_maximo);
 
+int posicion_id(char nombre_archivo[MAX_NOMBRE_ARCHIVO], int id);
+
+void transcribir_y_modificar(FILE *fuente, FILE *destino, parametros_t datos);
+
 #endif /* __CONTROL_H__ */
