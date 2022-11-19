@@ -58,6 +58,7 @@ int contactar_super(parametros_t datos)
         perror("Error al abrir el archivo");
         return ERROR;
     }
+
     FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
     if (archivo_auxiliar == NULL)
     {
@@ -70,11 +71,14 @@ int contactar_super(parametros_t datos)
 
     if (posicion_linea != BUSCADO_NO_EXISTE)
     {
+        printf("Se ha contratado exitosamente al siguiente heroe:\n");
         datos_de_heroe_segun_id(&datos, datos.heroe.id);
         escribir_linea_en_consola(datos);
+
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
         saltear_linea(heroes);
         reescribir_hasta_final(heroes, archivo_auxiliar);
+
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(datos.archivo);
@@ -82,6 +86,7 @@ int contactar_super(parametros_t datos)
     }
     else
     {
+        printf("El heroe de ID: %i no existe dentro de [ %s ]\n", datos.heroe.id, datos.archivo);
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(NOMBRE_ARCHIVO_AUXILIAR);

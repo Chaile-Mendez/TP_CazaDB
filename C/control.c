@@ -83,7 +83,6 @@ int obtener_posicion(int id, char archivo[MAX_NOMBRE_ARCHIVO])
 
     listar_ids(ids_archivo, &tope_ids, archivo);
     int posicion = busqueda_binaria(id, ids_archivo, tope_ids);
-    printf("Posicion en archivo -%s-: %i \n", archivo, posicion);
     return posicion;
 }
 
@@ -136,11 +135,21 @@ int datos_de_heroe_segun_id(parametros_t *datos, int id)
         return ERROR;
     }
 
-    while (id != datos->heroe.id)
+    super_t super_leido;
+
+    bool buscando = true;
+
+    while (buscando)
     {
-        fscanf(archivo, FORMATO_LECTURA, &(datos->heroe.id), datos->heroe.nombre, &(datos->heroe.edad), &(datos->heroe.estado));
+        leer_linea(archivo, &super_leido);
+
+        if (datos->heroe.id == super_leido.id)
+        {
+            buscando = false;
+        }
     }
 
+    datos->heroe = super_leido;
     fclose(archivo);
     return OK;
 }
