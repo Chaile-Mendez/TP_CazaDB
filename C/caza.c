@@ -6,10 +6,12 @@ int main(int argc, char *argv[])
 
     parametros_t solicitud;
 
-    asignar_datos_segun_comando(&solicitud, argv, argc);
+    if (ERROR == asignar_datos_segun_comando(&solicitud, argv, argc))
+    {
+        return ERROR;
+    }
 
     ejecutar_solicitud(solicitud);
 
     return 0;
 }
- 

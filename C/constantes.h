@@ -23,11 +23,12 @@ static const int BUSCADO_NO_EXISTE = -1;
 #define MAX_COLUMNA_ID 8
 #define MAX_COLUMNA_EDAD 5
 #define MAX_COLUMNA_NOMBRE MAX_NOMBRE + MAX_COLUMNA_ESTADO
-#define MAX_COLUMNA_ESTADO 5
+#define MAX_COLUMNA_ESTADO 10
 
 #define MAX_LONGITUD_LINEA MAX_COLUMNA_ID + MAX_COLUMNA_NOMBRE + MAX_COLUMNA_ESTADO
 
 static const int EDAD_MAXIMA = 100;
+static const int EDAD_MINIMA = 0;
 static const int MINIMO_ARGUMENTOS_LISTAR = 3;
 static const int MINIMO_ARGUMENTOS_CONTACTAR = 4;
 static const int MINIMO_ARGUEMENTOS_MODIFICAR = 6;
@@ -35,6 +36,8 @@ static const int MINIMO_ARGUEMENTOS_AGREGAR = 7;
 static const int MINIMO_ARGUEMENTOS_AYUDA = 2;
 
 static const char ESTADO_VIVO = 'V';
+static const char TEXTO_ESTADO_VIVO[MAX_COLUMNA_ESTADO] = "vivo";
+static const char TEXTO_ESTADO_MUERTO[MAX_COLUMNA_ESTADO] = "muerto";
 static const char ESTADO_MUERTO = 'M';
 
 /*Indice de los datos en la linea de comandos*/

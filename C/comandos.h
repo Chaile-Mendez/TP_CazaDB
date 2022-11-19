@@ -12,7 +12,7 @@ int agregar_super(parametros_t datos);
 
 void mostrar_ayuda();
 
-void asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int cantidad_argumentos);
+int asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int cantidad_argumentos);
 
 void ejecutar_solicitud(parametros_t query);
 

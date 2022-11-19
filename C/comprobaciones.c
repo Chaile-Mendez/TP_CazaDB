@@ -1,94 +1,88 @@
 #include "constantes.h"
+#include "control.h"
 
-int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO])
+int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO], int cantidad_argumentos) // CAMBIAR NOMBRE DE MINIMO A CANTIDAD EXACTA
 {
+    int cantidad_argumentos_necesarios = ERROR;
+
     if ((strcmp(comando, COMANDO_LISTAR_SUPERS)) == 0)
     {
-        return MINIMO_ARGUMENTOS_LISTAR;
+        cantidad_argumentos_necesarios = MINIMO_ARGUMENTOS_LISTAR;
     }
     else if (strcmp(comando, COMANDO_CONTACTAR_SUPER) == 0)
     {
-        return MINIMO_ARGUMENTOS_CONTACTAR;
+        cantidad_argumentos_necesarios = MINIMO_ARGUMENTOS_CONTACTAR;
     }
     else if (strcmp(comando, COMANDO_MODIFICAR_SUPER) == 0)
     {
-        return MINIMO_ARGUEMENTOS_MODIFICAR;
+        cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_MODIFICAR;
     }
     else if (strcmp(comando, COMANDO_AGREGAR_SUPER) == 0)
     {
-        return MINIMO_ARGUEMENTOS_AGREGAR;
+        cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_AGREGAR;
     }
-    else
+
+    if (cantidad_argumentos == cantidad_argumentos_necesarios)
     {
-        return 2;
+        return OK;
     }
+
+    printf("se necesitan %i arguementos para este comando\n", cantidad_argumentos_necesarios);
+    return ERROR;
 }
 
-bool comprobar_edad_valida(int edad)
+bool comprobar_edad_invalida(int edad)
 {
-    if (edad < 0 || edad > EDAD_MAXIMA)
+    if (edad < EDAD_MINIMA || edad > EDAD_MAXIMA)
     {
-        printf("[Solo se aceptan edades entre 0 y %i]\n", EDAD_MAXIMA);
-        return false;
+        printf("[Solo se aceptan edades entre %i y %i]\n", EDAD_MINIMA, EDAD_MAXIMA);
+        return true;
     }
-    return true;
+    return false;
 }
 
-bool comprobar_estado_valido(char estado)
+bool comprobar_estado_invalido(char estado)
 {
     if (estado == ESTADO_VIVO || estado == ESTADO_MUERTO)
     {
-        return true;
+        return false;
     }
     else
     {
-        printf("Los caracteres validos para el estado son %c y %c", ESTADO_VIVO, ESTADO_MUERTO);
-        return false;
+        printf("Los caracteres validos para el estado son %c y %c\n", ESTADO_VIVO, ESTADO_MUERTO);
+        return true;
     }
 }
 
-bool comprobar_nombre_valido(char nombre[MAX_NOMBRE])
+bool comprobar_nombre_invalido(char nombre[MAX_NOMBRE])
 {
     if (strlen(nombre) > MAX_NOMBRE)
     {
         printf("El nombre ingresado exede el limite maximo de %i caracteres\n", MAX_NOMBRE);
-        return false;
+        return true;
     }
     else
     {
-        return true;
+        return false;
     }
 }
 
 void escribir_linea_en_consola(parametros_t datos)
 {
-    char columna_id[MAX_ANCHO_COLUMNA] = " ";
-    char columna_nombre[MAX_ANCHO_COLUMNA] = " ";
-    char columna_edad[MAX_ANCHO_COLUMNA] = " ";
+    char columna_id[MAX_ANCHO_COLUMNA];
+    char columna_nombre[MAX_ANCHO_COLUMNA];
+    char columna_edad[MAX_ANCHO_COLUMNA];
+    char columna_estado[MAX_ANCHO_COLUMNA];
 
     sprintf(columna_id, "%i", datos.heroe.id);
     sprintf(columna_edad, "%i", datos.heroe.edad);
     strcpy(columna_nombre, datos.heroe.nombre);
+    estado_a_texto(columna_estado, datos.heroe.estado);
 
-    int longitud_id = (int)(strlen(columna_id));
-    int longtiud_edad = (int)(strlen(columna_edad));
-    int lontitud_nombre = (int)(strlen(columna_nombre));
+    completar_ancho_columna(columna_id, MAX_COLUMNA_ID);
+    completar_ancho_columna(columna_nombre, MAX_COLUMNA_NOMBRE);
+    completar_ancho_columna(columna_edad, MAX_COLUMNA_EDAD);
+    completar_ancho_columna(columna_estado, MAX_COLUMNA_ESTADO);
 
-    for (int i = longitud_id; i < MAX_COLUMNA_ID; i++)
-    {
-        strcat(columna_id, " ");
-    }
-
-    for (int i = longtiud_edad; i < MAX_COLUMNA_EDAD; i++)
-    {
-        strcat(columna_edad, " ");
-    }
-
-    for (int i = lontitud_nombre; i < MAX_COLUMNA_NOMBRE; i++)
-    {
-        strcat(columna_nombre, " ");
-    }
-
-    printf("|%s|%s|%s| %c |\n", columna_id, columna_nombre, columna_edad, datos.heroe.estado);
+    printf("|%s|%s|%s|%s|\n", columna_id, columna_nombre, columna_edad, columna_estado);
 }
-

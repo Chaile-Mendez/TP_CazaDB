@@ -34,4 +34,12 @@ int buscar_id_menor_maxima(parametros_t datos);
 
 void transcribir_e_insertar(FILE *fuente, FILE *destino, parametros_t datos);
 
+bool asignar_estado(char *estado, char *argumentos[], int posicion_caracter);
+
+bool asignar_edad(int *edad, char *argumentos[], int posicion_edad);
+
+void estado_a_texto(char string[MAX_ANCHO_COLUMNA], char estado);
+
+void completar_ancho_columna(char columna[MAX_ANCHO_COLUMNA], size_t ancho_maximo);
+
 #endif /* __CONTROL_H__ */

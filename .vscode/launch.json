@@ -4,21 +4,51 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "DEBUG:LiLITE",
+      "name": "DEBUG:LISTAR",
       "program": "${workspaceFolder}/caza",
       "args": [
-        /*
         "listar",
-        "random_list.cvs"
-        */
+        "lista.cvs"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "DEBUG:AGREGAR",
+      "program": "${workspaceFolder}/caza",
+      "args": [
         "agregar",
-        //"contactar",
-        "100",
-        "Blackwidow",
-        "30",
-        //"THOR",
-        //"100",
-        "V",
+        "10",
+        "mi nuevo super",
+        "33",
+        "vivo",
+        "lista.cvs"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "DEBUG:CONTACTAR",
+      "program": "${workspaceFolder}/caza",
+      "args": [
+        "contactar",
+        "10",
+        "lista.cvs"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "DEBUG:MODIFICAR",
+      "program": "${workspaceFolder}/caza",
+      "args": [
+        "modificar",
+        "10",
+        "101",
+        "vivo",
         "lista.cvs"
       ],
       "cwd": "${workspaceFolder}"

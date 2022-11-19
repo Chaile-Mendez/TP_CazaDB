@@ -225,7 +225,7 @@ void transcribir_e_insertar(FILE *fuente, FILE *destino, parametros_t datos)
 
     while (leer_linea(fuente, &aux) == 4)
     {
-        if (aux.id > datos.heroe.id)
+        if (aux.id > datos.heroe.id && sin_agregar)
         {
 
             escribir_linea(destino, datos.heroe);
@@ -240,5 +240,56 @@ void transcribir_e_insertar(FILE *fuente, FILE *destino, parametros_t datos)
     if (sin_agregar)
     {
         escribir_linea(destino, datos.heroe);
+    }
+}
+
+bool asignar_edad(int *edad, char *argumentos[], int posicion_edad)
+{
+    *edad = atoi(argumentos[posicion_edad]);
+
+    if (*edad < EDAD_MINIMA || *edad > EDAD_MAXIMA)
+    {
+        printf("[Solo se aceptan edades entre %i y %i]\n", EDAD_MINIMA, EDAD_MAXIMA);
+        return true;
+    }
+    return false;
+}
+
+bool asignar_estado(char *estado, char *argumentos[], int posicion_caracter)
+{
+    if (strcmp(argumentos[posicion_caracter], TEXTO_ESTADO_VIVO) == 0)
+    {
+        *estado = ESTADO_VIVO;
+    }
+    else if (strcmp(argumentos[posicion_caracter], TEXTO_ESTADO_MUERTO) == 0)
+    {
+        *estado = ESTADO_MUERTO;
+    }
+    else
+    {
+        printf("[Solo se aceptan los estados:  %s y %s]\n", TEXTO_ESTADO_MUERTO, TEXTO_ESTADO_VIVO);
+        return true;
+    }
+
+    return false;
+}
+
+void estado_a_texto(char columna[MAX_ANCHO_COLUMNA], char estado)
+{
+    if (estado == ESTADO_VIVO)
+    {
+        strcpy(columna, TEXTO_ESTADO_VIVO);
+    }
+    else
+    {
+        strcpy(columna, TEXTO_ESTADO_MUERTO);
+    }
+}
+
+void completar_ancho_columna(char columna[MAX_ANCHO_COLUMNA], size_t ancho_maximo)
+{
+    for (size_t i = strlen(columna); i < ancho_maximo; i++)
+    {
+        strcat(columna, " ");
     }
 }

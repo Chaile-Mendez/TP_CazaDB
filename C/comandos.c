@@ -97,6 +97,7 @@ int contactar_super(parametros_t datos)
 
 int modificar_super(parametros_t datos)
 {
+
     // Error actual, si la lista esta vacia, lee 2 lineas y una no existe
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
@@ -141,11 +142,6 @@ int modificar_super(parametros_t datos)
 
 int agregar_super(parametros_t datos)
 {
-    if (!(comprobar_edad_valida(datos.heroe.edad)) && !(comprobar_estado_valido(datos.heroe.estado)) && !(comprobar_nombre_valido(datos.heroe.nombre)))
-    {
-        perror("Datos ingresados invalidos");
-        return ERROR;
-    }
 
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
@@ -153,13 +149,15 @@ int agregar_super(parametros_t datos)
         heroes = fopen(datos.archivo, "a");
         if (heroes == NULL)
         {
+            perror("El archivo no existe y no se pudo crear\n");
             return ERROR;
         }
         fclose(heroes);
         FILE *heroes = fopen(datos.archivo, "r");
         if (heroes == NULL)
         {
-            perror("No se pudo crear archivo");
+            perror("Error al abrir el archivo\n");
+            return ERROR;
         }
     }
 
@@ -167,7 +165,7 @@ int agregar_super(parametros_t datos)
     if (archivo_auxiliar == NULL)
     {
         fclose(heroes);
-        perror("Error al abrir el archivo");
+        perror("Error al abrir el archivo\n");
         return ERROR;
     }
 
@@ -182,13 +180,14 @@ int agregar_super(parametros_t datos)
         fclose(archivo_auxiliar);
         remove(datos.archivo);
         rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
+        printf("El heroe ha sido agregado exitosamente\n");
     }
     else
     {
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(NOMBRE_ARCHIVO_AUXILIAR);
-        perror("Ya existe el ID dentro del archivo");
+        printf("Ya existe el ID: %i dentro del archivo [ %s ]\n", datos.heroe.id, datos.archivo);
         return ERROR;
     }
 
@@ -200,48 +199,52 @@ void mostrar_ayuda()
     printf("mostrar informacion del programa\n");
 }
 
-void asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int cantidad_argumentos)
+int asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int cantidad_argumentos)
 {
     strcpy(solicitud->comando, *(&argumentos[POSICION_COMANDO]));
     solicitud->cantidad_arguementos = cantidad_argumentos;
 
-    int minimo_argumentos = contar_argumentos_minimos(solicitud->comando);
-    if (cantidad_argumentos < minimo_argumentos)
+    if (ERROR == contar_argumentos_minimos(solicitud->comando, cantidad_argumentos))
     {
-        printf("se necesitan almenos %i arguementos para este comando", minimo_argumentos);
+        return ERROR;
     }
-    else
-    {
+
         if ((strcmp(solicitud->comando, COMANDO_LISTAR_SUPERS)) == 0)
-        {
-            strcpy(solicitud->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
-        }
-        else if (strcmp(solicitud->comando, COMANDO_CONTACTAR_SUPER) == 0)
-        {
+    {
+        strcpy(solicitud->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
+    }
+    else if (strcmp(solicitud->comando, COMANDO_CONTACTAR_SUPER) == 0)
+    {
+        strcpy(solicitud->archivo, *(&argumentos[CONTACTAR_POSICION_ARCHIVO]));
+        solicitud->heroe.id = atoi(argumentos[CONTACTAR_POSICION_ID]);
+    }
+    else if (strcmp(solicitud->comando, COMANDO_MODIFICAR_SUPER) == 0)
+    {
+        strcpy(solicitud->archivo, *(&argumentos[MODIFICAR_POSICION_ARCHIVO]));
 
-            strcpy(solicitud->archivo, *(&argumentos[CONTACTAR_POSICION_ARCHIVO]));
-            solicitud->heroe.id = atoi(argumentos[CONTACTAR_POSICION_ID]);
-        }
-        else if (strcmp(solicitud->comando, COMANDO_MODIFICAR_SUPER) == 0)
+        if (asignar_edad(&(solicitud->heroe.edad), argumentos, MODIFICAR_POSICION_EDAD) ||
+            asignar_estado(&(solicitud->heroe.estado), argumentos, MODIFICAR_POSICION_ESTADO))
         {
+            return ERROR;
+        }
+        solicitud->heroe.id = atoi(argumentos[MODIFICAR_POSICION_ID]);
+    }
+    else if (strcmp(solicitud->comando, COMANDO_AGREGAR_SUPER) == 0)
+    {
+        strcpy(solicitud->archivo, *(&argumentos[AGREGAR_POSICION_ARCHIVO]));
+        strcpy(solicitud->heroe.nombre, *(&argumentos[AGREGAR_POSICION_NOMBRE]));
+        solicitud->heroe.id = atoi(argumentos[AGREGAR_POSICION_ID]);
 
-            strcpy(solicitud->archivo, *(&argumentos[MODIFICAR_POSICION_ARCHIVO]));
-            solicitud->heroe.id = atoi(argumentos[MODIFICAR_POSICION_ID]);
-            solicitud->heroe.edad = atoi(argumentos[MODIFICAR_POSICION_EDAD]);
-            solicitud->heroe.estado = argumentos[MODIFICAR_POSICION_ESTADO][0];
-        }
-        else if (strcmp(solicitud->comando, COMANDO_AGREGAR_SUPER) == 0)
+        if (asignar_edad(&(solicitud->heroe.edad), argumentos, AGREGAR_POSICION_EDAD) ||
+            asignar_estado(&(solicitud->heroe.estado), argumentos, AGREGAR_POSICION_ESTADO))
         {
-
-            strcpy(solicitud->archivo, *(&argumentos[AGREGAR_POSICION_ARCHIVO]));
-            strcpy(solicitud->heroe.nombre, *(&argumentos[AGREGAR_POSICION_NOMBRE]));
-            solicitud->heroe.id = atoi(argumentos[AGREGAR_POSICION_ID]);
-            solicitud->heroe.edad = atoi(argumentos[AGREGAR_POSICION_EDAD]);
-            solicitud->heroe.estado = argumentos[AGREGAR_POSICION_ESTADO][0];
-        }
-        else if (strcmp(solicitud->comando, COMANDO_AYUDA) == 0)
-        {
-            mostrar_ayuda();
+            return ERROR;
         }
     }
+    else if (strcmp(solicitud->comando, COMANDO_AYUDA) == 0)
+    {
+        mostrar_ayuda();
+    }
+
+    return OK;
 }
