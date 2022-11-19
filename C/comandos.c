@@ -72,8 +72,8 @@ int contactar_super(parametros_t datos)
     if (posicion_linea != BUSCADO_NO_EXISTE)
     {
         printf("Se ha contratado exitosamente al siguiente heroe:\n");
-        datos_de_heroe_segun_id(&datos, datos.heroe.id);
-        escribir_linea_en_consola(datos);
+
+        mostrar_heroe_id(&datos);
 
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
         saltear_linea(heroes);
@@ -118,17 +118,20 @@ int modificar_super(parametros_t datos)
         reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
         modificar_linea(heroes, archivo_auxiliar, &datos.heroe);
         reescribir_hasta_final(heroes, archivo_auxiliar);
+
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(datos.archivo);
         rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
+        printf("El heroe ha sido modificado a:\n");
+        mostrar_heroe_id(&datos);
     }
     else
     {
+        printf("El heroe de ID: %i no existe dentro de [ %s ]\n", datos.heroe.id, datos.archivo);
         fclose(heroes);
         fclose(archivo_auxiliar);
         remove(NOMBRE_ARCHIVO_AUXILIAR);
-        perror("El ID ingresado no existe");
         return ERROR;
     }
 

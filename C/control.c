@@ -1,4 +1,5 @@
 #include "constantes.h"
+#include "comprobaciones.h"
 #include "control.h"
 
 void listar_ids(int lista_ids[MAX_LINEAS], int *tope_ids, char nombre_archivo[MAX_NOMBRE_ARCHIVO])
@@ -182,4 +183,11 @@ void transcribir_hasta_id_mayor(FILE *fuente, FILE *destino, super_t super)
         escribir_linea(destino, super);
         escribir_linea(destino, super_leido);
     }
+}
+
+int mostrar_heroe_id(parametros_t *datos)
+{
+    datos_de_heroe_segun_id(datos, datos->heroe.id);
+    escribir_linea_en_consola(*datos);
+    return OK;
 }

@@ -28,4 +28,6 @@ int datos_de_heroe_segun_id(parametros_t *datos, int id);
 
 void transcribir_hasta_id_mayor(FILE *fuente, FILE *destino, super_t super);
 
+int mostrar_heroe_id(parametros_t *datos);
+
 #endif /* __CONTROL_H__ */
