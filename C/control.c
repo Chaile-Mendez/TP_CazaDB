@@ -191,3 +191,54 @@ int mostrar_heroe_id(parametros_t *datos)
     escribir_linea_en_consola(*datos);
     return OK;
 }
+
+int buscar_id_menor_maxima(parametros_t datos)
+{
+    int id = 0;
+
+    int ids_archivo[MAX_LINEAS];
+    int tope_ids = 0;
+
+    listar_ids(ids_archivo, &tope_ids, datos.archivo);
+    int i = 0;
+    bool buscando = true;
+    while (i < tope_ids && buscando)
+    {
+        if (ids_archivo[i] < datos.heroe.id)
+        {
+            id = ids_archivo[i];
+        }
+        else
+        {
+            buscando = false;
+        }
+        i++;
+    }
+
+    return id;
+}
+
+void transcribir_e_insertar(FILE *fuente, FILE *destino, parametros_t datos)
+{
+    bool sin_agregar = true;
+    super_t aux;
+
+    while (leer_linea(fuente, &aux) == 4)
+    {
+        if (aux.id > datos.heroe.id)
+        {
+
+            escribir_linea(destino, datos.heroe);
+            escribir_linea(destino, aux);
+            sin_agregar = false;
+        }
+        else
+        {
+            escribir_linea(destino, aux);
+        }
+    }
+    if (sin_agregar)
+    {
+        escribir_linea(destino, datos.heroe);
+    }
+}

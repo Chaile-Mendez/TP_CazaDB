@@ -97,6 +97,7 @@ int contactar_super(parametros_t datos)
 
 int modificar_super(parametros_t datos)
 {
+    // Error actual, si la lista esta vacia, lee 2 lineas y una no existe
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
     {
@@ -149,8 +150,17 @@ int agregar_super(parametros_t datos)
     FILE *heroes = fopen(datos.archivo, "r");
     if (heroes == NULL)
     {
-        perror("Error al abrir el archivo");
-        return ERROR;
+        heroes = fopen(datos.archivo, "a");
+        if (heroes == NULL)
+        {
+            return ERROR;
+        }
+        fclose(heroes);
+        FILE *heroes = fopen(datos.archivo, "r");
+        if (heroes == NULL)
+        {
+            perror("No se pudo crear archivo");
+        }
     }
 
     FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
@@ -162,15 +172,11 @@ int agregar_super(parametros_t datos)
     }
 
     int existe_id = obtener_posicion(datos.heroe.id, datos.archivo);
-    // int posicion_linea = buscar_maximo_menor(datos.heroe.id, datos.archivo);
 
     if (existe_id == BUSCADO_NO_EXISTE)
     {
-        /*reescribir_hasta(heroes, archivo_auxiliar, posicion_linea);
-         */
-        transcribir_hasta_id_mayor(heroes, archivo_auxiliar, datos.heroe);
-        // escribir_linea(archivo_auxiliar, datos.heroe);
-        reescribir_hasta_final(heroes, archivo_auxiliar);
+
+        transcribir_e_insertar(heroes, archivo_auxiliar, datos);
 
         fclose(heroes);
         fclose(archivo_auxiliar);

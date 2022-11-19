@@ -30,4 +30,8 @@ void transcribir_hasta_id_mayor(FILE *fuente, FILE *destino, super_t super);
 
 int mostrar_heroe_id(parametros_t *datos);
 
+int buscar_id_menor_maxima(parametros_t datos);
+
+void transcribir_e_insertar(FILE *fuente, FILE *destino, parametros_t datos);
+
 #endif /* __CONTROL_H__ */

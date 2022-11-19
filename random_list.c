@@ -7,8 +7,10 @@
 
 /*Constantes*/
 #define MAX_ALFABETO 30
-const char ALFABETO[MAX_ALFABETO] = "ABCDEFGHIJKLMNOPQRSUVWXYZ ";
-const int TOPE_ALFABETO = 26;
+const char ALFABETO[MAX_ALFABETO] = "BCDFGHJKLMNPQRSVWXYZ ";
+const int TOPE_ALFABETO = 21;
+const char VOCALES[MAX_ALFABETO] = "AEIOU";
+const int TOPE_VOCALES = 5;
 const char ARCHIVO[MAX_ALFABETO] = "./lista.cvs";
 const int FINALIZAR_PROGRAMA = -1;
 
@@ -25,10 +27,13 @@ void string_aleatorio(char string[], int longitud)
 {
     int espacios = 0;
     int indice_aleatorio = -1;
-    for (int i = 0; i < longitud; i++)
+    for (int i = 0; i < longitud; i += 2)
     {
         indice_aleatorio = obtener_numero_random(0, TOPE_ALFABETO - 1);
         string[i] = ALFABETO[indice_aleatorio];
+
+        indice_aleatorio = obtener_numero_random(0, TOPE_VOCALES - 1);
+        string[i + 1] = VOCALES[indice_aleatorio];
     }
     string[longitud] = '\0';
 }
@@ -53,7 +58,7 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < repeticiones; i++)
     {
-        string_aleatorio(nombre, obtener_numero_random(4, 30));
+        string_aleatorio(nombre, obtener_numero_random(4, 15));
         edad = obtener_numero_random(0, 100);
 
         if (obtener_numero_random(0, 1))
