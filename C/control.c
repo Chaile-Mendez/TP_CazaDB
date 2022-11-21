@@ -94,7 +94,6 @@ bool transcribir_y_borrar(FILE *fuente, FILE *destino, parametros_t datos)
 
     if (sin_borrar)
     {
-        printf("El heroe de ID: %i no existe dentro de [ %s ]\n", datos.heroe.id, datos.archivo);
         return false;
     }
     else

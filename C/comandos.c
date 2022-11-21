@@ -17,7 +17,6 @@ bool ejecutar_solicitud(parametros_t query)
 
     case CODIGO_ELIMINAR:
 
-        contactar_super(query);
         if (!(contactar_super(query)))
         {
             return false;
@@ -85,9 +84,9 @@ bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], in
 
         strcpy(solicitud->archivo, *(&argumentos[MODIFICAR_POSICION_ARCHIVO]));
 
-        if (asignar_id(&(solicitud->heroe.id), argumentos, AGREGAR_POSICION_ID) ||
-            asignar_edad(&(solicitud->heroe.edad), argumentos, AGREGAR_POSICION_EDAD) ||
-            asignar_estado(&(solicitud->heroe.estado), argumentos, AGREGAR_POSICION_ESTADO))
+        if (asignar_id(&(solicitud->heroe.id), argumentos, MODIFICAR_POSICION_ID) ||
+            asignar_edad(&(solicitud->heroe.edad), argumentos, MODIFICAR_POSICION_EDAD) ||
+            asignar_estado(&(solicitud->heroe.estado), argumentos, MODIFICAR_POSICION_ESTADO))
         {
             return false;
         }
@@ -99,8 +98,6 @@ bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], in
         break;
 
     case CODIGO_AYUDA:
-
-        mostrar_ayuda();
         break;
     }
 
@@ -249,5 +246,49 @@ bool agregar_super(parametros_t datos)
 
 void mostrar_ayuda()
 {
-    printf("mostrar informacion del programa\n");
+    printf("Informacion del programa\n\n");
+
+    printf("\nConsideraciones del archivo a utilizar\n");
+    printf("El archivo con el que se trabaja utilizando este programa\n");
+    printf("debe tener la extension .csv y su formato debe ser el siguiente:\n");
+    printf("ID;NOMBRE;EDAD;ESTADO\n");
+    printf("EJEMPLO:  32;Mr.Increible;44;V\n");
+
+    printf("\nConsideraciones al ingresar datos\n");
+    printf("El ID ingresado debe ser positivo\n");
+    printf("El nombre ingresado debe tener maximo %i caracteres\n", MAX_NOMBRE);
+    printf("El nombre debe ser ingreasdo entre comillas dobles en caso de tener espacios\n");
+    printf("La edad ingresada debe estar entre %i y %i\n", EDAD_MINIMA, EDAD_MAXIMA);
+    printf("El estado del personaje puede ser -%s- o -%s-\n", TEXTO_ESTADO_VIVO, TEXTO_ESTADO_MUERTO);
+    printf("El nombre del archivo debe ser ingresado con su extension .csv");
+
+    printf("\nLos comandos disponibles son:\n\n");
+
+    printf("\n\n%s\n", COMANDO_AGREGAR_SUPER);
+    printf("Formato: ./%s %s ID NOMBRE EDAD ESTADO ARCHIVO\n", NOMBRE_PROGRAMA, COMANDO_AGREGAR_SUPER);
+    printf("\nDescripcion:\n");
+    printf("Inserta una linea nueva con los datos del super ingresado.\n");
+    printf("Solo si la ID del super ingresado no existe en la lista.\n");
+    printf("En caso de que el archivo no exista, se creara\n");
+
+    printf("\n\n%s\n", COMANDO_CONTACTAR_SUPER);
+    printf("Formato: ./%s %s ARCHIVO\n", NOMBRE_PROGRAMA, COMANDO_CONTACTAR_SUPER);
+    printf("\nDescripcion:\n");
+    printf("Elimina al super de la lista que tenga el ID ingresado y\n");
+    printf("se mostrara en consola los datos del super contactado.\n");
+    printf("El super sera contactado independimenente de su estado\n");
+
+    printf("\n\n%s\n", COMANDO_MODIFICAR_SUPER);
+    printf("Formato: ./%s %s ID EDAD ESTADO ARCHIVO\n", NOMBRE_PROGRAMA, COMANDO_MODIFICAR_SUPER);
+    printf("\nDescripcion:\n");
+    printf("Modifica la edad y el estado del super de la lista que\n");
+    printf("tenga el ID ingresado. Ademas se mostrara en consola los\n");
+    printf("datos del super contactado.\n");
+
+    printf("\n\n%s\n", COMANDO_LISTAR_SUPERS);
+    printf("Formato: ./%s %s ID ARCHIVO\n", NOMBRE_PROGRAMA, COMANDO_LISTAR_SUPERS);
+    printf("\nDescripcion:\n");
+    printf("Muestra en consola un listado con todos los supers dentro\n");
+    printf("del archivo. Los datos seran expresados en su forma completa\n");
+    printf("y no solo como estan guardados dentro del .csv .\n");
 }

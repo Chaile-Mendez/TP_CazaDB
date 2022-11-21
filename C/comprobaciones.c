@@ -8,16 +8,28 @@ bool comprobar_cantidad_argumentos_ok(int codigo_comando, int cantidad_argumento
     switch (codigo_comando)
     {
     case CODIGO_AGREGAR:
+
         cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_AGREGAR;
         break;
+
     case CODIGO_ELIMINAR:
+
         cantidad_argumentos_necesarios = MINIMO_ARGUMENTOS_CONTACTAR;
         break;
+
     case CODIGO_MODIFICAR:
+
         cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_MODIFICAR;
         break;
+
     case CODIGO_LISTAR:
+
         cantidad_argumentos_necesarios = MINIMO_ARGUMENTOS_LISTAR;
+        break;
+
+    case CODIGO_AYUDA:
+
+        cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_AYUDA;
         break;
     }
 
@@ -76,6 +88,9 @@ bool asignar_codigo_comando(char comando[MAX_LONGITUD_COMANDO], int *codigo_coma
     }
     else
     {
+        printf("No ha ingresado ningun comando valido\n");
+        printf("ingrese: ./%s %s \n", NOMBRE_PROGRAMA, COMANDO_AYUDA);
+        printf("Para obtener ayuda respecto a como usar el programa\n");
         return false;
     }
     return true;

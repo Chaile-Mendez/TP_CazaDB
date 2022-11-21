@@ -14,7 +14,7 @@ static const int BUSCADO_NO_EXISTE = -1;
 /**/
 #define MAX_LONGITUD_COMANDO 20
 #define MAX_LONGITUD_ARGUMENTO 40
-#define MAX_NOMBRE 30
+#define MAX_NOMBRE 50
 #define MAX_NOMBRE_ARCHIVO 40
 #define MAX_LINEAS 100000
 #define MAX_ANCHO_COLUMNA 50
@@ -39,6 +39,7 @@ static const char ESTADO_VIVO = 'V';
 static const char TEXTO_ESTADO_VIVO[MAX_COLUMNA_ESTADO] = "vivo";
 static const char TEXTO_ESTADO_MUERTO[MAX_COLUMNA_ESTADO] = "muerto";
 static const char ESTADO_MUERTO = 'M';
+#define NOMBRE_PROGRAMA "caza"
 
 /*Indice de los datos en la linea de comandos*/
 static const int POSICION_COMANDO = 1;
