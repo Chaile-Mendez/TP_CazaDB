@@ -3,16 +3,18 @@
 
 #include "constantes.h"
 
-int contar_argumentos_minimos(char comando[MAX_LONGITUD_COMANDO], int cantidad_argumentos);
+bool comprobar_cantidad_argumentos_ok(int codigo_comando, int cantidad_argumentos);
 
-bool comprobar_edad_invalida(int edad);
+void escribir_linea_en_consola(super_t heroe);
 
-bool comprobar_estado_invalido(char estado);
+bool asignar_codigo_comando(char comando[MAX_LONGITUD_COMANDO], int *codigo_comando);
 
-bool comprobar_nombre_invalido(char nombre[MAX_NOMBRE]);
+bool asignar_edad(int *edad, char *argumentos[], int posicion_edad);
 
-void escribir_linea_en_consola(parametros_t datos);
+bool asignar_estado(char *estado, char *argumentos[], int posicion_caracter);
 
+bool asignar_id(int *id, char *argumentos[], int posicion_caracter);
 
+bool asignar_nombre(char nombre[MAX_NOMBRE], char *argumentos[], int posicion_caracter);
 
 #endif /* __COMPROBACIONES_H__ */

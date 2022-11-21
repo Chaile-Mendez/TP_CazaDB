@@ -81,10 +81,15 @@ typedef struct super
 
 typedef struct parametros
 {
-    char comando[MAX_LONGITUD_COMANDO];
+    int codigo_comando;
     super_t heroe;
     char archivo[MAX_NOMBRE_ARCHIVO];
-    int cantidad_arguementos;
 } parametros_t;
+
+#define CODIGO_AYUDA 1
+#define CODIGO_AGREGAR 2
+#define CODIGO_ELIMINAR 3
+#define CODIGO_MODIFICAR 4
+#define CODIGO_LISTAR 5
 
 #endif /* __CONSTANTES_H__ */

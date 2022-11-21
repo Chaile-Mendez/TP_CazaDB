@@ -1,4 +1,5 @@
 #include "constantes.h"
+#include "comprobaciones.h"
 #include "comandos.h"
 
 int main(int argc, char *argv[])
@@ -6,12 +7,20 @@ int main(int argc, char *argv[])
 
     parametros_t solicitud;
 
-    if (ERROR == asignar_datos_segun_comando(&solicitud, argv, argc))
+    if (!(asignar_codigo_comando(argv[POSICION_COMANDO], &solicitud.codigo_comando)))
     {
         return ERROR;
     }
 
-    ejecutar_solicitud(solicitud);
+    if (!(asignar_datos_segun_comando(&solicitud, argv, argc)))
+    {
+        return ERROR;
+    }
+
+    if (!(ejecutar_solicitud(solicitud)))
+    {
+        return ERROR;
+    }
 
     return 0;
 }
