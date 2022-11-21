@@ -1,11 +1,11 @@
 #ifndef __COMPROBACIONES_H__
 #define __COMPROBACIONES_H__
 
-#include "constantes.h"
+#include "caza.h"
 
-bool comprobar_cantidad_argumentos_ok(int codigo_comando, int cantidad_argumentos);
+bool comprobar_cantidad_argumentos(int codigo_comando, int cantidad_argumentos);
 
-void escribir_linea_en_consola(super_t heroe);
+void escribir_super_en_consola(super_t heroe);
 
 bool asignar_codigo_comando(char comando[MAX_LONGITUD_COMANDO], int *codigo_comando);
 

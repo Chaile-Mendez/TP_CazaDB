@@ -1,15 +1,15 @@
-#include "constantes.h"
+#include "caza.h"
 #include "comandos.h"
 #include "comprobaciones.h"
-#include "control.h"
+#include "acciones.h"
 
-bool ejecutar_solicitud(parametros_t query)
+bool ejecutar_comando(parametros_t datos)
 {
-    switch (query.codigo_comando)
+    switch (datos.codigo_comando)
     {
     case CODIGO_AGREGAR:
 
-        if (!(agregar_super(query)))
+        if (!(agregar_super(datos)))
         {
             return false;
         }
@@ -17,7 +17,7 @@ bool ejecutar_solicitud(parametros_t query)
 
     case CODIGO_ELIMINAR:
 
-        if (!(contactar_super(query)))
+        if (!(contactar_super(datos)))
         {
             return false;
         }
@@ -25,7 +25,7 @@ bool ejecutar_solicitud(parametros_t query)
 
     case CODIGO_MODIFICAR:
 
-        if (!(modificar_super(query)))
+        if (!(modificar_super(datos)))
         {
             return false;
         }
@@ -33,7 +33,7 @@ bool ejecutar_solicitud(parametros_t query)
 
     case CODIGO_LISTAR:
 
-        if (!(listar_supers(query)))
+        if (!(listar_supers(datos)))
         {
             return false;
         }
@@ -47,24 +47,24 @@ bool ejecutar_solicitud(parametros_t query)
     return true;
 }
 
-bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], int cantidad_argumentos)
+bool asignar_datos_segun_comando(parametros_t *datos, char *argumentos[], int cantidad_argumentos)
 {
 
-    if (!(comprobar_cantidad_argumentos_ok(solicitud->codigo_comando, cantidad_argumentos)))
+    if (!(comprobar_cantidad_argumentos(datos->codigo_comando, cantidad_argumentos)))
     {
         return false;
     }
 
-    switch (solicitud->codigo_comando)
+    switch (datos->codigo_comando)
     {
     case CODIGO_AGREGAR:
 
-        strcpy(solicitud->archivo, *(&argumentos[AGREGAR_POSICION_ARCHIVO]));
+        strcpy(datos->archivo, *(&argumentos[POSICION_ARCHIVO_EN_AGREGAR]));
 
-        if (asignar_id(&(solicitud->heroe.id), argumentos, AGREGAR_POSICION_ID) ||
-            asignar_nombre(solicitud->heroe.nombre, argumentos, AGREGAR_POSICION_NOMBRE) ||
-            asignar_edad(&(solicitud->heroe.edad), argumentos, AGREGAR_POSICION_EDAD) ||
-            asignar_estado(&(solicitud->heroe.estado), argumentos, AGREGAR_POSICION_ESTADO))
+        if (asignar_id(&(datos->heroe.id), argumentos, POSICION_ID_EN_AGREGAR) ||
+            asignar_nombre(datos->heroe.nombre, argumentos, POSICION_NOMBRE_EN_AGREGAR) ||
+            asignar_edad(&(datos->heroe.edad), argumentos, POSICION_EDAD_EN_AGREGAR) ||
+            asignar_estado(&(datos->heroe.estado), argumentos, POSICION_ESTADO_EN_AGREGAR))
         {
             return false;
         }
@@ -72,9 +72,9 @@ bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], in
 
     case CODIGO_ELIMINAR:
 
-        strcpy(solicitud->archivo, *(&argumentos[CONTACTAR_POSICION_ARCHIVO]));
+        strcpy(datos->archivo, *(&argumentos[POSICION_ARCHIVO_EN_CONTACTAR]));
 
-        if (asignar_id(&(solicitud->heroe.id), argumentos, CONTACTAR_POSICION_ID))
+        if (asignar_id(&(datos->heroe.id), argumentos, POSICION_ID_EN_CONTACTAR))
         {
             return false;
         }
@@ -82,11 +82,11 @@ bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], in
 
     case CODIGO_MODIFICAR:
 
-        strcpy(solicitud->archivo, *(&argumentos[MODIFICAR_POSICION_ARCHIVO]));
+        strcpy(datos->archivo, *(&argumentos[POSICION_ARCHIVO_EN_MODIFICAR]));
 
-        if (asignar_id(&(solicitud->heroe.id), argumentos, MODIFICAR_POSICION_ID) ||
-            asignar_edad(&(solicitud->heroe.edad), argumentos, MODIFICAR_POSICION_EDAD) ||
-            asignar_estado(&(solicitud->heroe.estado), argumentos, MODIFICAR_POSICION_ESTADO))
+        if (asignar_id(&(datos->heroe.id), argumentos, POSICION_ID_EN_MODIFICAR) ||
+            asignar_edad(&(datos->heroe.edad), argumentos, POSICION_EDAD_EN_MODIFICAR) ||
+            asignar_estado(&(datos->heroe.estado), argumentos, POSICION_ESTADO_EN_MODIFICAR))
         {
             return false;
         }
@@ -94,7 +94,7 @@ bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], in
 
     case CODIGO_LISTAR:
 
-        strcpy(solicitud->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
+        strcpy(datos->archivo, *(&argumentos[LISTAR_POSICION_ARCHIVO]));
         break;
 
     case CODIGO_AYUDA:
@@ -106,30 +106,23 @@ bool asignar_datos_segun_comando(parametros_t *solicitud, char *argumentos[], in
 
 bool listar_supers(parametros_t datos)
 {
-    FILE *heroes = fopen(datos.archivo, "r");
-    if (heroes == NULL)
+    FILE *tabla_heroes = fopen(datos.archivo, "r");
+    if (tabla_heroes == NULL)
     {
         perror("Error al abrir el archivo de lectura");
         return false;
     }
-    else
-    {
-        while (!feof(heroes))
-        {
-            if (CANTIDAD_COLUMNAS == leer_linea(heroes, &datos.heroe))
-            {
-                escribir_linea_en_consola(datos.heroe);
-            }
-        }
-    }
-    fclose(heroes);
+
+    transcribir_lista_en_consola(tabla_heroes);
+
+    fclose(tabla_heroes);
     return true;
 }
 
 bool contactar_super(parametros_t datos)
 {
-    FILE *heroes = fopen(datos.archivo, "r");
-    if (heroes == NULL)
+    FILE *tabla_heroes = fopen(datos.archivo, "r");
+    if (tabla_heroes == NULL)
     {
         perror("Error al abrir el archivo");
         return false;
@@ -138,17 +131,17 @@ bool contactar_super(parametros_t datos)
     FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
     if (archivo_auxiliar == NULL)
     {
-        fclose(heroes);
+        fclose(tabla_heroes);
         perror("Error al crear y abrir el archivo");
         return false;
     }
 
-    bool resultado = transcribir_y_borrar(heroes, archivo_auxiliar, datos);
+    bool resultado_sin_errores = transcribir_y_borrar(tabla_heroes, archivo_auxiliar, datos);
 
-    fclose(heroes);
+    fclose(tabla_heroes);
     fclose(archivo_auxiliar);
 
-    if (resultado)
+    if (resultado_sin_errores)
     {
         remove(datos.archivo);
         rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
@@ -163,8 +156,8 @@ bool contactar_super(parametros_t datos)
 
 bool modificar_super(parametros_t datos)
 {
-    FILE *heroes = fopen(datos.archivo, "r");
-    if (heroes == NULL)
+    FILE *tabla_heroes = fopen(datos.archivo, "r");
+    if (tabla_heroes == NULL)
     {
         perror("Error al abrir el archivo");
         return false;
@@ -172,17 +165,17 @@ bool modificar_super(parametros_t datos)
     FILE *archivo_auxiliar = fopen(NOMBRE_ARCHIVO_AUXILIAR, "w");
     if (archivo_auxiliar == NULL)
     {
-        fclose(heroes);
+        fclose(tabla_heroes);
         perror("Error al abrir el archivo");
         return false;
     }
 
-    bool resultado = transcribir_y_modificar(heroes, archivo_auxiliar, datos);
+    bool resultado_sin_errores = transcribir_y_modificar(tabla_heroes, archivo_auxiliar, datos);
 
-    fclose(heroes);
+    fclose(tabla_heroes);
     fclose(archivo_auxiliar);
 
-    if (resultado)
+    if (resultado_sin_errores)
     {
         remove(datos.archivo);
         rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
@@ -225,12 +218,12 @@ bool agregar_super(parametros_t datos)
         return false;
     }
 
-    bool resultado = transcribir_e_insertar(heroes, archivo_auxiliar, datos);
+    bool resultado_sin_errores = transcribir_e_insertar(heroes, archivo_auxiliar, datos);
 
     fclose(heroes);
     fclose(archivo_auxiliar);
 
-    if (resultado)
+    if (resultado_sin_errores)
     {
         remove(datos.archivo);
         rename(NOMBRE_ARCHIVO_AUXILIAR, datos.archivo);
@@ -259,7 +252,7 @@ void mostrar_ayuda()
     printf("El nombre ingresado debe tener maximo %i caracteres\n", MAX_NOMBRE);
     printf("El nombre debe ser ingreasdo entre comillas dobles en caso de tener espacios\n");
     printf("La edad ingresada debe estar entre %i y %i\n", EDAD_MINIMA, EDAD_MAXIMA);
-    printf("El estado del personaje puede ser -%s- o -%s-\n", TEXTO_ESTADO_VIVO, TEXTO_ESTADO_MUERTO);
+    printf("El estado del personaje puede ser -%s- o -%s-\n", PALABRA_ESTADO_OK, PALABRA_ESTADO_NO_OK);
     printf("El nombre del archivo debe ser ingresado con su extension .csv");
 
     printf("\nLos comandos disponibles son:\n\n");

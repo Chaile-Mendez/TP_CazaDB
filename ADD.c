@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         strcpy(datos.archivo, argv[6]);
     */
 
-    escribir_linea_en_consola(datos);
+    escribir_super_en_consola(datos);
 
     fclose(archivo);
     return 0;

@@ -1,7 +1,7 @@
-#include "constantes.h"
-#include "control.h"
+#include "caza.h"
+#include "acciones.h"
 
-bool comprobar_cantidad_argumentos_ok(int codigo_comando, int cantidad_argumentos) // CAMBIAR NOMBRE DE MINIMO A CANTIDAD EXACTA
+bool comprobar_cantidad_argumentos(int codigo_comando, int cantidad_argumentos)
 {
     int cantidad_argumentos_necesarios = -1;
 
@@ -9,27 +9,27 @@ bool comprobar_cantidad_argumentos_ok(int codigo_comando, int cantidad_argumento
     {
     case CODIGO_AGREGAR:
 
-        cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_AGREGAR;
+        cantidad_argumentos_necesarios = CANTIDAD_ARGUMENTOS_AGREGAR;
         break;
 
     case CODIGO_ELIMINAR:
 
-        cantidad_argumentos_necesarios = MINIMO_ARGUMENTOS_CONTACTAR;
+        cantidad_argumentos_necesarios = CANTIDAD_ARGUMENTOS_CONTACTAR;
         break;
 
     case CODIGO_MODIFICAR:
 
-        cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_MODIFICAR;
+        cantidad_argumentos_necesarios = CANTIDAD_ARGUMENTOS_MODIFICAR;
         break;
 
     case CODIGO_LISTAR:
 
-        cantidad_argumentos_necesarios = MINIMO_ARGUMENTOS_LISTAR;
+        cantidad_argumentos_necesarios = CANTIDAD_ARGUMENTOS_LISTAR;
         break;
 
     case CODIGO_AYUDA:
 
-        cantidad_argumentos_necesarios = MINIMO_ARGUEMENTOS_AYUDA;
+        cantidad_argumentos_necesarios = CANTIDAD_ARGUMENTOS_AYUDA;
         break;
     }
 
@@ -44,7 +44,7 @@ bool comprobar_cantidad_argumentos_ok(int codigo_comando, int cantidad_argumento
     }
 }
 
-void escribir_linea_en_consola(super_t heroe)
+void escribir_super_en_consola(super_t heroe)
 {
     char columna_id[MAX_ANCHO_COLUMNA];
     char columna_nombre[MAX_ANCHO_COLUMNA];
@@ -56,10 +56,10 @@ void escribir_linea_en_consola(super_t heroe)
     strcpy(columna_nombre, heroe.nombre);
     estado_a_texto(columna_estado, heroe.estado);
 
-    completar_ancho_columna(columna_id, MAX_COLUMNA_ID);
-    completar_ancho_columna(columna_nombre, MAX_COLUMNA_NOMBRE);
-    completar_ancho_columna(columna_edad, MAX_COLUMNA_EDAD);
-    completar_ancho_columna(columna_estado, MAX_COLUMNA_ESTADO);
+    completar_ancho_columna(columna_id, ANCHO_COLUMNA_ID);
+    completar_ancho_columna(columna_nombre, ANCHO_COLUMNA_NOMBRE);
+    completar_ancho_columna(columna_edad, ANCHO_COLUMNA_EDAD);
+    completar_ancho_columna(columna_estado, ANCHO_COLUMNA_ESTADO);
 
     printf("||%s|%s|%s|%s||\n", columna_id, columna_nombre, columna_edad, columna_estado);
 }
@@ -96,7 +96,7 @@ bool asignar_codigo_comando(char comando[MAX_LONGITUD_COMANDO], int *codigo_coma
     return true;
 }
 
-bool asignar_edad(int *edad, char *argumentos[], int posicion_edad) // Mover a comprobaciones
+bool asignar_edad(int *edad, char *argumentos[], int posicion_edad)
 {
     *edad = atoi(argumentos[posicion_edad]);
 
@@ -108,26 +108,26 @@ bool asignar_edad(int *edad, char *argumentos[], int posicion_edad) // Mover a c
     return false;
 }
 
-bool asignar_estado(char *estado, char *argumentos[], int posicion_caracter) // Mover a comprobaciones
+bool asignar_estado(char *estado, char *argumentos[], int posicion_caracter)
 {
-    if (strcmp(argumentos[posicion_caracter], TEXTO_ESTADO_VIVO) == 0)
+    if (strcmp(argumentos[posicion_caracter], PALABRA_ESTADO_OK) == 0)
     {
-        *estado = ESTADO_VIVO;
+        *estado = CARACTER_ESTADO_OK;
     }
-    else if (strcmp(argumentos[posicion_caracter], TEXTO_ESTADO_MUERTO) == 0)
+    else if (strcmp(argumentos[posicion_caracter], PALABRA_ESTADO_NO_OK) == 0)
     {
-        *estado = ESTADO_MUERTO;
+        *estado = CARACTER_ESTADO_NO_OK;
     }
     else
     {
-        printf("[Solo se aceptan los estados:  %s y %s]\n", TEXTO_ESTADO_MUERTO, TEXTO_ESTADO_VIVO);
+        printf("[Solo se aceptan los estados:  %s y %s]\n", PALABRA_ESTADO_NO_OK, PALABRA_ESTADO_OK);
         return true;
     }
 
     return false;
 }
 
-bool asignar_id(int *id, char *argumentos[], int posicion_caracter) // Mover a comprobaciones
+bool asignar_id(int *id, char *argumentos[], int posicion_caracter)
 {
     int valor_id = atoi(argumentos[posicion_caracter]);
     if (valor_id >= 0)
@@ -135,7 +135,6 @@ bool asignar_id(int *id, char *argumentos[], int posicion_caracter) // Mover a c
         *id = valor_id;
         return false;
     }
-
     else
     {
         printf("[Solo se aceptan IDs mayores o iguales a 0]\n");
